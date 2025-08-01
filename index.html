@@ -1,0 +1,3189 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cẩm Nang SAP FI Toàn Tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+      
+      /* Enhanced scrollbar */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(241, 245, 249, 0.1);
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(45deg, #5a67d8, #6b46c1);
+      }
+      
+      .content-section {
+        display: none;
+        animation: fadeInUp 0.6s ease-out;
+      }
+      .content-section.active {
+        display: block;
+      }
+      
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      
+      /* Enhanced sidebar */
+      .sidebar-enhanced {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+      
+      /* Enhanced nav links */
+      .nav-link {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 12px;
+        padding: 12px 16px;
+        margin: 4px 0;
+        display: block;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .nav-link:hover {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white !important;
+        transform: translateX(8px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      }
+      
+      .nav-link::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+      }
+      
+      .nav-link:hover::before {
+        left: 100%;
+      }
+      
+      /* Glass morphism cards */
+      .glass-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+        transition: all 0.3s ease;
+      }
+      
+      .glass-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      }
+      
+      /* Enhanced diagram styles */
+      .diagram-box {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 2px solid transparent;
+        background-clip: padding-box;
+        padding: 1.5rem;
+        border-radius: 16px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .diagram-box::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        border-radius: 16px;
+      }
+      
+      .diagram-box:hover::before {
+        opacity: 0.1;
+      }
+      
+      .diagram-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(102, 126, 234, 0.3);
+      }
+      
+      .diagram-arrow {
+        position: relative;
+        text-align: center;
+        margin: 1.5rem 0;
+      }
+      
+      .diagram-arrow::after {
+        content: "↓";
+        font-size: 2rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: bounce 2s infinite;
+      }
+      
+      @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+      
+      /* Enhanced code block */
+      .code-block {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        color: #e2e8f0;
+        padding: 1.5rem;
+        border-radius: 16px;
+        overflow-x: auto;
+        font-family: "JetBrains Mono", "Courier New", Courier, monospace;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        position: relative;
+      }
+      
+      .code-block::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981);
+        border-radius: 16px 16px 0 0;
+        opacity: 0.1;
+      }
+      
+      /* Section headers */
+      .section-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+      }
+      
+      .section-header::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 2px;
+      }
+      
+      /* Floating action button */
+      .fab {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        z-index: 1000;
+      }
+      
+      .fab:hover {
+        transform: scale(1.1);
+        box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+      }
+      
+      /* Loading animation */
+      .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-br from-purple-50 to-blue-50 text-gray-800 min-h-screen">
+    <!-- Background decoration -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute -top-40 -right-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+      <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" style="animation-delay: 2s;"></div>
+    </div>
+    
+    <div class="flex h-screen relative z-10">
+      <!-- Sidebar -->
+      <aside
+        id="sidebar"
+        class="w-64 sidebar-enhanced flex-shrink-0 overflow-y-auto p-6 transition-all duration-500 ease-in-out -translate-x-full sm:translate-x-0"
+      >
+        <div class="text-center mb-8">
+          <h1 class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
+            <i class="fas fa-chart-line mr-2"></i>SAP FI Hub
+          </h1>
+          <p class="text-sm text-gray-600">Cẩm nang toàn tập</p>
+        </div>
+        <nav id="nav-menu">
+          <ul class="space-y-2">
+            <li>
+              <a
+                href="#"
+                class="nav-link font-medium text-gray-700 hover:text-white flex items-center"
+                data-target="overview"
+              >
+                <i class="fas fa-home w-5 mr-3"></i>
+                Tổng quan SAP FI
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="nav-link font-medium text-gray-700 hover:text-white flex items-center"
+                data-target="org-structure"
+              >
+                <i class="fas fa-sitemap w-5 mr-3"></i>
+                Cấu trúc tổ chức
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="nav-link font-medium text-gray-700 hover:text-white flex items-center"
+                data-target="master-data"
+              >
+                <i class="fas fa-database w-5 mr-3"></i>
+                Master Data
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="nav-link font-medium text-gray-700 hover:text-white flex items-center"
+                data-target="principles"
+              >
+                <i class="fas fa-cogs w-5 mr-3"></i>
+                Nguyên tắc & Quy trình
+              </a>
+            </li>
+            <li>
+              <div class="mb-3">
+                <span class="font-semibold text-gray-700 flex items-center px-4 py-2">
+                  <i class="fas fa-folder-open w-5 mr-3"></i>
+                  Case Studies
+                </span>
+                <ul class="ml-8 space-y-1 border-l-2 border-gradient-to-b from-purple-300 to-blue-300 pl-4">
+                  <li>
+                    <a
+                      href="#"
+                      class="nav-link text-gray-600 hover:text-white flex items-center text-sm py-2"
+                      data-target="case-ar"
+                    >
+                      <i class="fas fa-receipt w-4 mr-2"></i>
+                      FI-AR: Phải thu
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="nav-link text-gray-600 hover:text-white flex items-center text-sm py-2"
+                      data-target="case-ap"
+                    >
+                      <i class="fas fa-file-invoice-dollar w-4 mr-2"></i>
+                      FI-AP: Phải trả
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="nav-link text-gray-600 hover:text-white flex items-center text-sm py-2"
+                      data-target="case-aa"
+                    >
+                      <i class="fas fa-building w-4 mr-2"></i>
+                      FI-AA: Kế toán tài sản
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="nav-link text-gray-600 hover:text-white flex items-center text-sm py-2"
+                      data-target="case-im"
+                    >
+                      <i class="fas fa-chart-pie w-4 mr-2"></i>
+                      FI-IM: Quản lý đầu tư
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="nav-link font-medium text-gray-700 hover:text-white flex items-center"
+                data-target="integration"
+              >
+                <i class="fas fa-puzzle-piece w-5 mr-3"></i>
+                Tích hợp Module
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="nav-link font-medium text-gray-700 hover:text-white flex items-center"
+                data-target="reporting"
+              >
+                <i class="fas fa-chart-bar w-5 mr-3"></i>
+                Báo cáo (Reporting)
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 p-4 sm:p-8 overflow-y-auto">
+        <button
+          id="sidebar-toggle"
+          class="sm:hidden fixed top-6 left-6 z-20 glass-card p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-purple-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+
+        <!-- Overview Section -->
+        <section id="overview" class="content-section active">
+          <div class="mb-8">
+            <h2 class="text-4xl font-bold mb-4 section-header">
+              Tổng quan SAP FI
+            </h2>
+            <p class="text-gray-600 text-lg">Khám phá module kế toán tài chính mạnh mẽ của SAP</p>
+          </div>
+          
+          <div class="glass-card p-8 mb-8">
+            <div class="flex items-start mb-6">
+              <div class="bg-gradient-to-r from-purple-500 to-blue-500 p-4 rounded-full mr-6 shadow-lg">
+                <i class="fas fa-info-circle text-white text-2xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-3xl font-semibold mb-6 text-gray-800 flex items-center">
+                  SAP FI là gì?
+                  <span class="badge badge-primary ml-3">Core Module</span>
+                </h3>
+                <div class="prose prose-lg text-gray-700 leading-relaxed">
+                  <div class="alert alert-info mb-6">
+                    <i class="fas fa-lightbulb mr-2"></i>
+                    <strong>Định nghĩa:</strong> SAP Financial Accounting (FI) là module cốt lõi quản lý toàn bộ dữ liệu tài chính kế toán
+                  </div>
+                  
+                  <p class="mb-6 text-lg">
+                    <strong class="text-purple-700">SAP Financial Accounting (FI)</strong> là một module cốt
+                    lõi của hệ thống SAP ERP, được thiết kế để quản lý toàn bộ dữ liệu
+                    tài chính kế toán của một doanh nghiệp. FI tập trung vào Kế toán
+                    Sổ cái (General Ledger - G/L), Kế toán Phải thu (Accounts
+              Receivable - AR), Kế toán Phải trả (Accounts Payable - AP), và Kế
+              toán Tài sản (Asset Accounting - AA).
+            </p>
+
+            <h4 class="text-xl font-semibold mt-6 mb-3">
+              Mục tiêu chính của FI
+            </h4>
+            <ul class="list-disc list-inside space-y-2">
+              <li>
+                <strong>Thu thập dữ liệu giao dịch:</strong> Ghi nhận mọi giao
+                dịch tài chính phát sinh như mua hàng, bán hàng, thanh toán, thu
+                tiền, khấu hao. Đây là cơ sở dữ liệu chính xác để tạo ra báo cáo
+                tài chính.
+              </li>
+              <li>
+                <strong>Cung cấp cơ sở cho báo cáo tài chính chuẩn:</strong> Dữ
+                liệu từ FI được tổng hợp thành các báo cáo quan trọng:
+                <ul class="list-decimal list-inside ml-6 mt-2 space-y-1">
+                  <li>
+                    <strong>Bảng cân đối kế toán (Balance Sheet):</strong> Tình
+                    hình tài sản và nguồn vốn tại một thời điểm.
+                  </li>
+                  <li>
+                    <strong
+                      >Báo cáo kết quả kinh doanh (Income Statement):</strong
+                    >
+                    Lãi/lỗ trong một kỳ.
+                  </li>
+                  <li>
+                    <strong
+                      >Báo cáo lưu chuyển tiền tệ (Cash Flow Statement):</strong
+                    >
+                    Dòng tiền vào/ra trong kỳ.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>Hướng đến đối tượng bên ngoài:</strong> Mục tiêu chính
+                là phục vụ các bên liên quan bên ngoài như cơ quan thuế, kiểm
+                toán, ngân hàng, cổ đông, nhà đầu tư. Họ cần dữ liệu đáng tin
+                cậy, theo chuẩn pháp lý.
+              </li>
+            </ul>
+
+            <div class="mt-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded">
+              <p class="font-semibold">Ví dụ thực tế:</p>
+              <p>
+                Tập đoàn Minh Phú xuất khẩu hải sản sang Mỹ. Để cạnh tranh, Mỹ
+                có thể áp thuế cao. Hệ thống SAP FI giúp Minh Phú quản lý tài
+                chính minh bạch, chi phí rõ ràng, từ đó có cơ sở để chứng minh
+                giá thành và tuân thủ các quy định thương mại quốc tế, tạo uy
+                tín với đối tác và cơ quan quản lý.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Organizational Structure Section -->
+        <section id="org-structure" class="content-section">
+          <h2 class="text-3xl font-bold mb-6 border-b pb-2">
+            Cấu trúc tổ chức trong SAP FI
+          </h2>
+          <div class="bg-white p-6 rounded-lg shadow-sm space-y-6">
+            <p>
+              Cấu trúc tổ chức trong SAP là bộ khung xương quyết định cách dữ
+              liệu tài chính được ghi nhận, phân loại và báo cáo. Thiết lập sai
+              cấu trúc này sẽ ảnh hưởng đến toàn bộ hệ thống.
+            </p>
+
+            <div class="diagram-box">
+              <h4 class="font-bold text-lg">Client</h4>
+              <p class="text-sm text-gray-600">
+                Cấp cao nhất, môi trường độc lập (Test, Production)
+              </p>
+            </div>
+            <div class="diagram-arrow"></div>
+            <div class="diagram-box">
+              <h4 class="font-bold text-lg">Company Code</h4>
+              <p class="text-sm text-gray-600">
+                Đơn vị pháp lý độc lập, chịu trách nhiệm báo cáo tài chính. Bắt
+                buộc phải có.
+              </p>
+            </div>
+            <div class="diagram-arrow"></div>
+            <div class="grid md:grid-cols-3 gap-4 text-center">
+              <div class="diagram-box">
+                <h4 class="font-bold">Chart of Accounts (CoA)</h4>
+                <p class="text-sm text-gray-600">
+                  Khung tài khoản kế toán, có thể chia sẻ giữa các Company Code.
+                </p>
+              </div>
+              <div class="diagram-box">
+                <h4 class="font-bold">Credit Control Area</h4>
+                <p class="text-sm text-gray-600">
+                  Giám sát hạn mức tín dụng khách hàng, có thể chia sẻ.
+                </p>
+              </div>
+              <div class="diagram-box">
+                <h4 class="font-bold">Business Area</h4>
+                <p class="text-sm text-gray-600">
+                  Phân tích báo cáo theo chiều ngang (sản phẩm, khu vực), độc
+                  lập với Company Code.
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-8">
+              <h3 class="text-xl font-semibold mb-3">Giải thích chi tiết</h3>
+              <div class="space-y-4">
+                <div>
+                  <h4 class="font-bold">1. Client</h4>
+                  <p>
+                    Là cấp cao nhất trong hệ thống. Mỗi client là một môi trường
+                    hoạt động riêng biệt (ví dụ: client 100 cho testing, client
+                    200 cho production). Dữ liệu giữa các client hoàn toàn tách
+                    biệt.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-bold">2. Company Code</h4>
+                  <p>
+                    Là trái tim của FI, đại diện cho một pháp nhân độc lập cần
+                    lập báo cáo tài chính riêng. Mọi giao dịch tài chính đều
+                    phải được gán cho một Company Code. Ví dụ: FPT Software, FPT
+                    Education, FPT Telecom là các Company Code khác nhau trong
+                    tập đoàn FPT.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-bold">3. Chart of Accounts (CoA)</h4>
+                  <p>
+                    Là danh mục chứa toàn bộ các tài khoản kế toán tổng hợp (G/L
+                    Accounts). Một CoA có thể được nhiều Company Code sử dụng để
+                    thống nhất chuẩn báo cáo trong một tập đoàn. Có các loại CoA
+                    chính: Operating CoA (cho giao dịch hàng ngày), Group CoA
+                    (hợp nhất báo cáo), Country-specific CoA (theo luật địa
+                    phương).
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-bold">4. Credit Control Area</h4>
+                  <p>
+                    Đơn vị giám sát hạn mức tín dụng của khách hàng, đảm bảo
+                    doanh nghiệp không bán chịu vượt mức rủi ro cho phép. Một
+                    Credit Control Area có thể quản lý nhiều Company Code.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-bold">5. Business Area</h4>
+                  <p>
+                    Đơn vị nội bộ dùng để phân tích báo cáo theo chiều ngang
+                    (theo lĩnh vực kinh doanh, khu vực địa lý). Ví dụ, trong FPT
+                    Software, có thể có các Business Area cho thị trường Nhật
+                    Bản, thị trường Mỹ để phân tích lợi nhuận riêng biệt, độc
+                    lập với pháp nhân.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-12">
+              <h3 class="text-2xl font-semibold mb-6 text-center section-header">
+                Ví dụ thực tế: Cấu trúc tổ chức Tập đoàn FPT trong SAP
+              </h3>
+              
+              <div class="alert alert-info mb-6">
+                <i class="fas fa-info-circle mr-2"></i>
+                <strong>Lưu ý:</strong> Đây là mô hình giả định để minh họa cách áp dụng cấu trúc tổ chức SAP vào thực tế doanh nghiệp Việt Nam.
+              </div>
+
+              <div class="org-tree">
+                <div class="tree-content">
+                  <div class="tree-line company-code">TẬP ĐOÀN FPT CORPORATION</div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">├──</span> <span class="company-code">Company Code 1: FPT Software</span> <span class="text-gray-400">(Công ty Phần mềm FPT)</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   ├──</span> <span class="business-area">Business Area: Công nghệ thông tin</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   ├──</span> <span class="business-unit">Business Unit: FPT Software Japan</span> <span class="text-gray-400">(Thị trường Nhật Bản)</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   │   ├──</span> <span class="department">Department: Software Development Department</span> <span class="text-gray-400">(Phòng Phát triển Phần mềm)</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   │   │   └──</span> <span class="team">Team: Project A Development Team</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   │   │       └──</span> <span class="individual">Individual Contributor: Lập trình viên</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   │   ├──</span> <span class="department">Department: Human Resources Department</span> <span class="text-gray-400">(Phòng Nhân sự)</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   │   └──</span> <span class="department">Department: Sales & Marketing Department</span> <span class="text-gray-400">(Phòng Kinh doanh & Tiếp thị)</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   └──</span> <span class="business-unit">Business Unit: FPT Software USA</span> <span class="text-gray-400">(Thị trường Mỹ)</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│       └──</span> <span class="text-gray-400">... (Tương tự cấu trúc các Department, Team, Individual)</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">├──</span> <span class="company-code">Company Code 2: FPT Education</span> <span class="text-gray-400">(Tổ chức Giáo dục FPT)</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   ├──</span> <span class="business-area">Business Area: Giáo dục</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   ├──</span> <span class="business-unit">Business Unit: Đại học FPT</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   │   ├──</span> <span class="department">Department: Phòng Đào tạo</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   │   │   └──</span> <span class="team">Team: Đội ngũ Giảng viên Khối ngành CNTT</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   │   ├──</span> <span class="department">Department: Phòng Công tác Sinh viên</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   │   └──</span> <span class="text-gray-400">...</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   └──</span> <span class="business-unit">Business Unit: Cao đẳng FPT Polytechnic</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│       └──</span> <span class="text-gray-400">...</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">├──</span> <span class="company-code">Company Code 3: FPT Telecom</span> <span class="text-gray-400">(Công ty Viễn thông FPT)</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   ├──</span> <span class="business-area">Business Area: Viễn thông</span>
+                  </div>  
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   ├──</span> <span class="business-unit">Business Unit: Khối Kinh doanh Internet</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   │   ├──</span> <span class="department">Department: Phòng Kinh doanh Internet Cáp quang</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   │   └──</span> <span class="department">Department: Phòng Kỹ thuật Hạ tầng Internet</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│   └──</span> <span class="business-unit">Business Unit: Khối Kinh doanh Truyền hình</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│       └──</span> <span class="text-gray-400">...</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">│</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">└──</span> <span class="company-code">Company Code N: FPT Retail, FPT IS, FPT Online...</span>
+                  </div>
+                  <div class="tree-line">
+                    <span class="tree-symbol">    └──</span> <span class="text-gray-400">...</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-8 space-y-6">
+                <div class="alert alert-success">
+                  <i class="fas fa-lightbulb mr-2"></i>
+                  <strong>Phân tích ứng dụng:</strong>
+                  <p class="mt-2">Với cấu trúc này, tập đoàn FPT có thể:</p>
+                  <ul class="list-disc list-inside mt-2 ml-4 space-y-1">
+                    <li><strong>Báo cáo tài chính riêng biệt</strong> cho từng Company Code theo yêu cầu pháp lý</li>
+                    <li><strong>Phân tích lợi nhuận</strong> theo Business Area (CNTT, Giáo dục, Viễn thông)</li>
+                    <li><strong>Quản lý chi phí</strong> chi tiết đến từng Department và Team</li>
+                    <li><strong>Hợp nhất báo cáo</strong> toàn tập đoàn một cách tự động và chính xác</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Master Data Section -->
+        <section id="master-data" class="content-section">
+          <h2 class="text-3xl font-bold mb-6 border-b pb-2">
+            Master Data
+          </h2>
+          <div class="bg-white p-6 rounded-lg shadow-sm space-y-6">
+            <p>
+              Master Data là dữ liệu cốt lõi, ít thay đổi, được sử dụng lặp đi
+              lặp lại trong các giao dịch. Thiết lập Master Data chuẩn xác là
+              nền tảng bắt buộc để hệ thống vận hành trơn tru.
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-6">
+              <div class="p-4 border rounded-lg bg-gray-50">
+                <h3 class="text-xl font-semibold mb-2">
+                  1. General Ledger (G/L) Accounts
+                </h3>
+                <p>
+                  Danh sách các tài khoản kế toán trong Chart of Accounts. Là
+                  trung tâm của FI, nơi mọi dữ liệu tài chính hội tụ để lập báo
+                  cáo. Mỗi G/L Account cần được gán cho Company Code để có thể
+                  sử dụng.
+                </p>
+              </div>
+              <div class="p-4 border rounded-lg bg-gray-50">
+                <h3 class="text-xl font-semibold mb-2">
+                  2. Customer Master Data (FI-AR)
+                </h3>
+                <p>
+                  Thông tin tài chính của khách hàng, dùng để quản lý công nợ
+                  phải thu. Dữ liệu được chia làm 3 phần: General Data (chung),
+                  Company Code Data (kế toán), và Sales Area Data (bán hàng).
+                </p>
+              </div>
+              <div class="p-4 border rounded-lg bg-gray-50">
+                <h3 class="text-xl font-semibold mb-2">
+                  3. Vendor Master Data (FI-AP)
+                </h3>
+                <p>
+                  Thông tin tài chính của nhà cung cấp, dùng để quản lý công nợ
+                  phải trả. Cấu trúc tương tự Customer Master Data, liên kết
+                  chặt chẽ với module MM (Quản lý mua hàng).
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="mt-8 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded"
+            >
+              <h4 class="font-bold text-lg mb-2">
+                Ghi chú quan trọng: Reconciliation Account
+              </h4>
+              <p class="mb-2">
+                Đây là một loại G/L Account đặc biệt, đóng vai trò là "cầu nối"
+                giữa sổ phụ (Subledger) và sổ cái (General Ledger).
+              </p>
+              <ul class="list-disc list-inside space-y-1">
+                <li>
+                  <strong>Subledger (Sổ phụ):</strong> Quản lý chi tiết theo
+                  từng đối tượng (VD: công nợ của khách hàng A, nhà cung cấp B).
+                </li>
+                <li>
+                  <strong>General Ledger (Sổ cái):</strong> Ghi nhận tổng hợp
+                  (VD: tổng công nợ phải thu, tổng công nợ phải trả).
+                </li>
+                <li>
+                  <strong>Reconciliation Account:</strong> Khi một giao dịch
+                  được hạch toán vào Subledger (VD: tạo hóa đơn cho khách A), hệ
+                  thống sẽ **tự động** hạch toán vào Reconciliation Account
+                  tương ứng trong G/L. Kế toán viên không thể hạch toán trực
+                  tiếp vào tài khoản này.
+                </li>
+              </ul>
+              <p class="mt-2">
+                <strong>Mục đích:</strong> Đảm bảo số liệu chi tiết ở sổ phụ
+                luôn khớp với số liệu tổng hợp ở sổ cái một cách tự động và
+                chính xác.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Principles & Processes Section -->
+        <section id="principles" class="content-section">
+          <h2 class="text-3xl font-bold mb-6 border-b pb-2">
+            Nguyên tắc & Quy trình cốt lõi
+          </h2>
+          <div class="bg-white p-6 rounded-lg shadow-sm space-y-8">
+            <div>
+              <h3 class="text-2xl font-semibold mb-3 text-blue-700">
+                1. Nguyên tắc chứng từ (Document Principle)
+              </h3>
+              <p class="mb-4">
+                Đây là nguyên tắc nền tảng, cốt lõi làm nên tính minh bạch và
+                kiểm soát của SAP FI. Mọi giao dịch tài chính phát sinh, dù lớn
+                hay nhỏ, đều phải được ghi lại dưới dạng một "document" (chứng
+                từ điện tử) với một số hiệu duy nhất.
+              </p>
+              <p class="font-semibold">Đặc điểm chính của một Document:</p>
+              <ul class="list-disc list-inside mt-2 mb-4 space-y-1">
+                <li>
+                  Chứa đầy đủ thông tin: Số hiệu, ngày tháng, người tạo, nội
+                  dung, các bút toán Nợ/Có.
+                </li>
+                <li>
+                  <strong>Không thể bị xóa:</strong> Một khi đã được ghi sổ,
+                  chứng từ không thể xóa. Chỉ có thể thực hiện bút toán đảo
+                  (reverse) để điều chỉnh.
+                </li>
+                <li>
+                  <strong>Tạo ra dấu vết kiểm toán (Audit Trail):</strong> Mọi
+                  thay đổi đều được ghi lại, giúp kiểm toán viên dễ dàng lần
+                  ngược từ báo cáo về chứng từ gốc.
+                </li>
+              </ul>
+              <div class="p-4 bg-green-50 border-l-4 border-green-500 rounded">
+                <p class="font-semibold">Lợi ích:</p>
+                <p>
+                  Đảm bảo tính minh bạch, tăng cường kiểm soát nội bộ, và tuân
+                  thủ các chuẩn mực pháp lý quốc tế như SOX, IFRS. Nếu không có
+                  nguyên tắc này, hệ thống kế toán sẽ dễ bị gian lận và không
+                  đáng tin cậy.
+                </p>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-2xl font-semibold mb-3 text-blue-700">
+                2. Các quy trình FI cốt lõi
+              </h3>
+              <p class="mb-4">
+                Đây là các nghiệp vụ cơ bản nhất diễn ra hàng ngày trong module
+                FI.
+              </p>
+              <div class="space-y-4">
+                <div class="p-4 border rounded-lg">
+                  <h4 class="font-bold">
+                    Ghi nhận bút toán Sổ cái (Posting a G/L Entry)
+                  </h4>
+                  <p>
+                    Nghiệp vụ cơ bản nhất, ghi trực tiếp vào sổ cái, không liên
+                    quan đến khách hàng/nhà cung cấp. Ví dụ: chi tiền thuê văn
+                    phòng.
+                  </p>
+                  <pre
+                    class="code-block mt-2"
+                  >Dr: 642000 – Chi phí thuê văn phòng<br>Cr: 100000 – Tài khoản ngân hàng</pre>
+                </div>
+                <div class="p-4 border rounded-lg">
+                  <h4 class="font-bold">
+                    Hóa đơn & Thu tiền từ Khách hàng (FI-AR)
+                  </h4>
+                  <p>
+                    Ghi nhận doanh thu và công nợ phải thu. Ví dụ: bán hàng cho
+                    khách.
+                  </p>
+                  <pre
+                    class="code-block mt-2"
+                  >Dr: 140000 – Phải thu khách hàng ABC<br>Cr: 500000 – Doanh thu bán hàng</pre>
+                </div>
+                <div class="p-4 border rounded-lg">
+                  <h4 class="font-bold">
+                    Hóa đơn & Trả tiền cho Nhà cung cấp (FI-AP)
+                  </h4>
+                  <p>
+                    Ghi nhận chi phí và công nợ phải trả. Ví dụ: nhận hóa đơn
+                    mua nguyên vật liệu.
+                  </p>
+                  <pre
+                    class="code-block mt-2"
+                  >Dr: 200000 – Hàng tồn kho<br>Cr: 160000 – Phải trả nhà cung cấp XYZ</pre>
+                </div>
+                <div class="p-4 border rounded-lg">
+                  <h4 class="font-bold">Mua sắm & Khấu hao Tài sản (FI-AA)</h4>
+                  <p>Ghi nhận tăng tài sản cố định và tính khấu hao định kỳ.</p>
+                  <pre
+                    class="code-block mt-2"
+                  >Mua tài sản:<br>Dr: 150000 – Tài sản cố định<br>Cr: 160000 – Phải trả nhà cung cấp<br><br>Khấu hao hàng tháng:<br>Dr: 630000 – Chi phí khấu hao<br>Cr: 170000 – Hao mòn lũy kế</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Case Study AR Section -->
+        <section id="case-ar" class="content-section">
+          <div class="mb-8">
+            <h2 class="text-4xl font-bold mb-4 section-header">
+              Case Study: FI-AR - Kế toán Phải thu
+            </h2>
+            <p class="text-gray-600 text-lg">Vòng đời hoàn chỉnh công nợ phải thu từ tạo invoice đến thu tiền và xử lý lỗi</p>
+          </div>
+
+          <div class="space-y-8">
+            <!-- Step 1-2: Payment Terms và Create Invoice -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-blue-700 flex items-center">
+                <span class="badge badge-primary mr-3">Step 1-2</span>
+                Điều khoản thanh toán và Tạo Invoice
+              </h3>
+              
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="border-l-4 border-blue-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 1: Change Terms of Payment</h4>
+                  <p class="mb-3">Đàm phán với khách hàng Motown Bikes: thanh toán trong 14 ngày được chiết khấu 2%.</p>
+                  <div class="bg-gray-50 p-3 rounded text-sm space-y-1">
+                    <div><strong>Customer:</strong> Motown Bikes</div>
+                    <div><strong>Payment Terms:</strong> 2/14 Net 30</div>
+                    <div><strong>Discount:</strong> 2% if paid within 14 days</div>
+                    <div><strong>Updated in:</strong> Customer Master Data</div>
+                  </div>
+                  <div class="alert alert-success mt-3 text-sm">
+                    <i class="fas fa-lightbulb mr-1"></i>
+                    SAP sẽ tự động tính chiết khấu khi nhận thanh toán sớm, giảm lỗi thủ công.
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-green-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 2: Create Customer Invoice</h4>
+                  <p class="mb-3">Tạo hóa đơn bán hàng $5,000 cho Motown Bikes (thường từ SD Billing).</p>
+                  <div class="code-snippet">
+                    <div class="text-green-400">// Bút toán tạo invoice (tăng nợ, tăng doanh thu)</div>
+                    <div class="text-white">Dr: AR - Motown Bikes          $5,000</div>
+                    <div class="text-white">Cr: Sales Revenue              $5,000</div>
+                    <div class="text-yellow-400">// Payment Terms: 2/14 Net 30</div>
+                  </div>
+                  <div class="mt-3 text-sm text-blue-600">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Mỗi invoice tạo FI Document với customer + reference + payment terms.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3-4: Display Balance và Post Payment -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-green-700 flex items-center">
+                <span class="badge badge-success mr-3">Step 3-4</span>
+                Theo dõi công nợ và Thu tiền
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="border-l-4 border-purple-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 3: Display Customer Balances</h4>
+                  <p class="mb-3">Kiểm tra công nợ hiện tại của Motown Bikes để quản lý dòng tiền.</p>
+                  <div class="modern-table">
+                    <table class="w-full">
+                      <thead>
+                        <tr>
+                          <th>Customer</th>
+                          <th>Invoice</th>
+                          <th>Amount</th>
+                          <th>Status</th>
+                          <th>Due Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Motown Bikes</td>
+                          <td>INV-001</td>
+                          <td>$5,000</td>
+                          <td>🔴 Open</td>
+                          <td>15/08/2025</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="alert alert-info mt-3 text-sm">
+                    <strong>Ứng dụng thực tế:</strong> Giúp kế toán quyết định gửi nhắc nợ, đánh giá khả năng giao dịch tiếp, lập kế hoạch cash flow.
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-orange-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 4: Post Incoming Payments</h4>
+                  <p class="mb-3">Khách thanh toán trong 10 ngày → được chiết khấu 2% = $100.</p>
+                  <div class="code-snippet">
+                    <div class="text-green-400">// Bút toán thu tiền với chiết khấu (tăng tiền trong bank, giảm nợ, ghi nhận chi phí discount để làm cân bằng journal entry</div>
+                    <div class="text-white">Dr: Bank Account               $4,900</div>
+                    <div class="text-white">Dr: Cash Discount Expense      $100</div>
+                    <div class="text-white">Cr: AR - Motown Bikes          $5,000</div>
+                    <div class="text-yellow-400">// Auto-calculated by SAP</div>
+                  </div>
+                  <div class="alert alert-success mt-3 text-sm">
+                    <i class="fas fa-check mr-1"></i>
+                    SAP tự động tính chiết khấu và clearing invoice - không cần tính tay.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 5: Kiểm tra Impact -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-purple-700 flex items-center">
+                <span class="badge badge-primary mr-3">Step 5</span>
+                Kiểm tra Impact trên Customer Balance
+              </h3>
+              
+              <div class="border-l-4 border-indigo-500 pl-4">
+                <h4 class="font-bold text-lg mb-2">Sau khi thu tiền</h4>
+                <p class="mb-3">Trạng thái công nợ và invoice thay đổi ngay lập tức.</p>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                  <div class="bg-red-50 p-4 rounded-lg">
+                    <h5 class="font-bold text-red-700 mb-2">Trước thanh toán:</h5>
+                    <ul class="text-sm space-y-1">
+                      <li>• Invoice Status: Open</li>
+                      <li>• Customer Balance: $5,000</li>
+                      <li>• Payment Due: 15/08/2025</li>
+                      <li>• Action Required: Follow up</li>
+                    </ul>
+                  </div>
+                  <div class="bg-green-50 p-4 rounded-lg">
+                    <h5 class="font-bold text-green-700 mb-2">Sau thanh toán:</h5>
+                    <ul class="text-sm space-y-1">
+                      <li>• Invoice Status: Cleared ✓</li>
+                      <li>• Customer Balance: $0</li>
+                      <li>• Cleared Date: 01/08/2025</li>
+                      <li>• Discount Applied: $100</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Error Scenarios -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-red-700 flex items-center">
+                <span class="badge badge-primary mr-3">Error Handling</span>
+                Xử lý các tình huống sai sót thực tế
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="alert alert-warning mb-4">
+                  <i class="fas fa-exclamation-triangle mr-2"></i>
+                  <strong>Thực tế:</strong> Những lỗi này xảy ra hàng ngày tại bộ phận kế toán bán hàng. Xử lý không đúng → ảnh hưởng uy tín với khách hàng.
+                </div>
+
+                <!-- Scenario 1: Hủy Invoice -->
+                <div class="border-l-4 border-red-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2 text-red-600">
+                    <i class="fas fa-times-circle mr-2"></i>Scenario 1: Hủy Invoice
+                  </h4>
+                  <p class="mb-3"><strong>Tình huống:</strong> Motown Bikes hủy đơn hàng sau khi đã tạo invoice nhưng chưa thu tiền.</p>
+                  
+                  <div class="bg-red-50 p-4 rounded-lg mb-3">
+                    <h5 class="font-bold mb-2">Cách xử lý:</h5>
+                    <div class="code-snippet">
+                      <div class="text-green-400">// Reverse Invoice - Bút toán đảo ngược (giảm revenue, giảm nợ)</div>
+                      <div class="text-white">Dr: Sales Revenue              $5,000</div>
+                      <div class="text-white">Cr: AR - Motown Bikes          $5,000</div>
+                      <div class="text-yellow-400">// Invoice status: Reversed</div>
+                    </div>
+                  </div>
+                  
+                  <div class="modern-table">
+                    <table class="w-full text-sm">
+                      <thead>
+                        <tr>
+                          <th>Impact</th>
+                          <th>Before</th>
+                          <th>After Reversal</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Sales Revenue</td>
+                          <td>$5,000</td>
+                          <td>$0</td>
+                        </tr>
+                        <tr>
+                          <td>Trade Receivable</td>
+                          <td>$5,000</td>
+                          <td>$0</td>
+                        </tr>
+                        <tr>
+                          <td>Customer Balance</td>
+                          <td>$5,000 Open</td>
+                          <td>$0 Cleared</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- Scenario 2: Gán nhầm thanh toán -->
+                <div class="border-l-4 border-yellow-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2 text-yellow-600">
+                    <i class="fas fa-exchange-alt mr-2"></i>Scenario 2: Gán nhầm thanh toán (Philly Bikes)
+                  </h4>
+                  <p class="mb-3"><strong>Tình huống:</strong> Hai invoice cùng $5,000. Khách thanh toán đúng tiền nhưng ghi sai reference. Kế toán gán nhầm vào invoice khác.</p>
+                  
+                  <div class="bg-yellow-50 p-4 rounded-lg mb-3">
+                    <h5 class="font-bold mb-2">Cách xử lý:</h5>
+                    <ol class="list-decimal list-inside space-y-2 text-sm">
+                      <li><strong>Reset Clearing:</strong> Xóa liên kết thanh toán - invoice hiện tại</li>
+                      <li><strong>Reassign Payment:</strong> Gán đúng thanh toán vào invoice cần trừ công nợ</li>
+                      <li><strong>Verify Balance:</strong> Kiểm tra lại customer balance đã chính xác</li>
+                    </ol>
+                  </div>
+                  
+                  <div class="grid md:grid-cols-3 gap-3 text-sm">
+                    <div class="bg-gray-100 p-3 rounded">
+                      <div class="font-bold text-gray-700">Trạng thái ban đầu:</div>
+                      <div>Invoice A: Open</div>
+                      <div>Invoice B: Cleared (sai)</div>
+                    </div>
+                    <div class="bg-yellow-100 p-3 rounded">
+                      <div class="font-bold text-yellow-700">Sau Reset:</div>
+                      <div>Invoice A: Open</div>
+                      <div>Invoice B: Open</div>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded">
+                      <div class="font-bold text-green-700">Sau Reassign:</div>
+                      <div>Invoice A: Cleared ✓</div>
+                      <div>Invoice B: Open</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Scenario 3: Thanh toán sai khách -->
+                <div class="border-l-4 border-purple-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2 text-purple-600">
+                    <i class="fas fa-user-times mr-2"></i>Scenario 3: Thanh toán sai khách (Windy City Bikes)
+                  </h4>
+                  <p class="mb-3"><strong>Tình huống:</strong> Thanh toán được post nhầm sang khách hàng khác - không chỉ sai clearing mà cả payment document bị sai.</p>
+                  
+                  <div class="bg-purple-50 p-4 rounded-lg mb-3">
+                    <h5 class="font-bold mb-2">Cách xử lý:</h5>
+                    <div class="space-y-2 text-sm">
+                      <div><strong>Reset and Reverse Payment:</strong></div>
+                      <ul class="list-disc list-inside ml-4 space-y-1">
+                        <li>Hệ thống xóa bút toán bank và clearing</li>
+                        <li>Trả invoice về trạng thái Open</li>
+                        <li>Tạo lại payment document đúng khách hàng</li>
+                      </ul>
+                    </div>
+                  </div>
+                  
+                  <div class="code-snippet">
+                    <div class="text-green-400">// Reverse Payment - Impact trên báo cáo</div>
+                    <div class="text-red-400">Dr: AR - Wrong Customer        $5,000  // Tăng lại công nợ</div>
+                    <div class="text-red-400">Cr: Bank Account               $5,000  // Giảm lại tiền mặt</div>
+                    <div class="text-yellow-400">// Sau đó tạo payment đúng cho Right Customer</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Financial Statement Impact -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-green-700 flex items-center">
+                <span class="badge badge-success mr-3">Final Step</span>
+                Kiểm tra ảnh hưởng trên Báo cáo tài chính
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="alert alert-info">
+                  <i class="fas fa-chart-line mr-2"></i>
+                  <strong>Quan trọng:</strong> Từng hành động FI đều phản ánh ngay trên báo cáo tài chính, không cần tổng hợp thủ công.
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div class="border-l-4 border-blue-500 pl-4">
+                    <h4 class="font-bold text-lg mb-3">Balance Sheet Impact</h4>
+                    <div class="modern-table">
+                      <table class="w-full text-sm">
+                        <thead>
+                          <tr>
+                            <th>Account</th>
+                            <th>Before</th>
+                            <th>After</th>
+                            <th>Change</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Trade Receivable</td>
+                            <td>$0</td>
+                            <td>$0</td>
+                            <td class="text-green-600">Cleared ✓</td>
+                          </tr>
+                          <tr>
+                            <td>Bank Account</td>
+                            <td>$10,000</td>
+                            <td>$14,900</td>
+                            <td class="text-green-600">+$4,900</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="border-l-4 border-green-500 pl-4">
+                    <h4 class="font-bold text-lg mb-3">Income Statement Impact</h4>
+                    <div class="modern-table">
+                      <table class="w-full text-sm">
+                        <thead>
+                          <tr>
+                            <th>Account</th>
+                            <th>Amount</th>
+                            <th>Impact</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Sales Revenue</td>
+                            <td>$5,000</td>
+                            <td class="text-green-600">Positive</td>
+                          </tr>
+                          <tr>
+                            <td>Cash Discount</td>
+                            <td>$100</td>
+                            <td class="text-red-600">Expense</td>
+                          </tr>
+                          <tr class="font-bold">
+                            <td>Net Impact</td>
+                            <td>$4,900</td>
+                            <td class="text-green-600">Positive</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Case Study AP Section -->
+        <section id="case-ap" class="content-section">
+          <div class="mb-8">
+            <h2 class="text-4xl font-bold mb-4 section-header">
+              Case Study: FI-AP - Kế toán Phải trả
+            </h2>
+            <p class="text-gray-600 text-lg">Quy trình quản lý thanh toán tiền thuê văn phòng từ A-Z</p>
+          </div>
+
+          <div class="space-y-8">
+            <!-- Step 1-2: Tạo Master Data -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-blue-700 flex items-center">
+                <span class="badge badge-primary mr-3">Step 1-2</span>
+                Tạo G/L Accounts cần thiết
+              </h3>
+              
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="border-l-4 border-blue-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 1: Tạo Bank Account</h4>
+                  <p class="mb-3">Tạo tài khoản ngân hàng chuyên dùng cho thanh toán thuê văn phòng.</p>
+                  <div class="bg-gray-50 p-3 rounded text-sm">
+                    <strong>Account Type:</strong> Current Asset (Tài sản ngắn hạn)<br>
+                    <strong>Account Number:</strong> 112000<br>
+                    <strong>Description:</strong> Bank - Rent Payments
+                  </div>
+                  <div class="alert alert-warning mt-3 text-sm">
+                    <i class="fas fa-lightbulb mr-1"></i>
+                    <strong>Tại sao cần tách?</strong> Kiểm soát dòng tiền tốt hơn, dễ theo dõi cash flow cho từng mục đích cụ thể.
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-green-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 2: Tạo Reconciliation Account</h4>
+                  <p class="mb-3">Tài khoản trung gian cho công nợ phải trả - cầu nối giữa Sub-ledger và G/L.</p>
+                  <div class="bg-gray-50 p-3 rounded text-sm">
+                    <strong>Account Type:</strong> Accounts Payable<br>
+                    <strong>Account Number:</strong> 160000<br>
+                    <strong>Description:</strong> AP - Trade Payables
+                  </div>
+                  <div class="alert alert-warning mt-3 text-sm">
+                    <i class="fas fa-exclamation-triangle mr-1"></i>
+                    <strong>Lưu ý:</strong> Không được post trực tiếp vào account này - chỉ SAP tự động post qua sub-ledger.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3-4: Tạo Expense Account và Vendor -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-green-700 flex items-center">
+                <span class="badge badge-success mr-3">Step 3-4</span>
+                Tạo Expense Account và Vendor Master
+              </h3>
+              
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="border-l-4 border-purple-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 3: Tạo Rent Expense Account</h4>
+                  <p class="mb-3">G/L Account ghi nhận chi phí thuê văn phòng, loại Primary Cost.</p>
+                  <div class="bg-gray-50 p-3 rounded text-sm space-y-1">
+                    <div><strong>Account Number:</strong> 642000</div>
+                    <div><strong>Description:</strong> Rent Expense - Office</div>
+                    <div><strong>Cost Element Type:</strong> Primary Cost</div>
+                    <div><strong>Cost Center Required:</strong> Yes</div>
+                  </div>
+                  <div class="mt-3 text-sm text-gray-600">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Primary Cost có thể dùng cả FI và CO để phân tích chi phí theo phòng ban.
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-orange-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 4: Tạo Vendor - Cardinal Properties</h4>
+                  <p class="mb-3">Tạo business partner cho chủ cho thuê với đầy đủ thông tin thanh toán.</p>
+                  <div class="bg-gray-50 p-3 rounded text-sm space-y-1">
+                    <div><strong>Vendor Code:</strong> CARDINAL</div>
+                    <div><strong>Name:</strong> Cardinal Properties LLC</div>
+                    <div><strong>Reconciliation Account:</strong> 160000</div>
+                    <div><strong>Payment Terms:</strong> Net 30 Days</div>
+                  </div>
+                  <div class="mt-3 text-sm text-blue-600">
+                    <i class="fas fa-check-circle mr-1"></i>
+                    Hệ thống sẽ tự động định khoản đúng G/L và quản lý payment terms.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 5-6: Chuyển tiền và Review -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-purple-700 flex items-center">
+                <span class="badge badge-primary mr-3">Step 5-6</span>
+                Chuyển tiền nội bộ và Review
+              </h3>
+              
+              <div class="space-y-4">
+                <div class="border-l-4 border-indigo-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 5: Transfer Funds Between Banks</h4>
+                  <p class="mb-3">Chuyển $5,000 từ tài khoản chính sang tài khoản dành riêng cho thanh toán thuê.</p>
+                  <div class="code-snippet">
+                    <div class="text-green-400">// Bút toán chuyển tiền nội bộ</div>
+                    <div class="text-white">Dr: 112000 - Bank Rent Payments    $5,000</div>
+                    <div class="text-white">Cr: 111000 - Bank Main Account     $5,000</div>
+                  </div>
+                  <div class="alert alert-info mt-3 text-sm">
+                    <strong>Mục đích:</strong> Tối ưu quản lý dòng tiền, tách biệt mục đích sử dụng để kiểm soát tốt hơn.
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-teal-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 6: Review Journal Entry</h4>
+                  <p class="mb-3">Kiểm tra FI Document vừa tạo - mỗi giao dịch đều tạo audit trail.</p>
+                  <div class="modern-table">
+                    <table class="w-full">
+                      <thead>
+                        <tr>
+                          <th>Document Info</th>
+                          <th>Details</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Document Number</td>
+                          <td>5000000123</td>
+                        </tr>
+                        <tr>
+                          <td>Posting Date</td>
+                          <td>01/08/2025</td>
+                        </tr>
+                        <tr>
+                          <td>Created By</td>
+                          <td>Kế toán viên A</td>
+                        </tr>
+                        <tr>
+                          <td>Status</td>
+                          <td>Posted ✓</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="mt-3 text-sm text-red-600">
+                    <i class="fas fa-shield-alt mr-1"></i>
+                    <strong>Quan trọng:</strong> Document không thể xóa, chỉ có thể reverse để đảm bảo tính minh bạch.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 7-9: Ghi nhận hóa đơn và theo dõi -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-red-700 flex items-center">
+                <span class="badge badge-primary mr-3">Step 7-9</span>
+                Ghi nhận Invoice và Theo dõi công nợ
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="border-l-4 border-red-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 7: Post Invoice Receipt - $1,500</h4>
+                  <p class="mb-3">Nhận hóa đơn tiền thuê tháng 8 từ Cardinal Properties.</p>
+                  <div class="code-snippet">
+                    <div class="text-green-400">// Bút toán ghi nhận chi phí và công nợ</div>
+                    <div class="text-white">Dr: 642000 - Rent Expense         $1,500</div>
+                    <div class="text-white">Cr: CARDINAL (qua 160000)         $1,500</div>
+                    <div class="text-yellow-400">// Cost Center: CC-1000 (Admin)</div>
+                  </div>
+                  <div class="alert alert-warning mt-3 text-sm">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Hệ thống yêu cầu Cost Center vì đây là Primary Cost Account để phân tích chi phí theo bộ phận.
+                  </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                  <div class="border-l-4 border-blue-500 pl-4">
+                    <h4 class="font-bold text-lg mb-2">Step 8: Check G/L Balance</h4>
+                    <p class="mb-3">Kiểm tra số dư tài khoản chi phí thuê.</p>
+                    <div class="bg-blue-50 p-3 rounded text-sm">
+                      <div><strong>Account:</strong> 642000 - Rent Expense</div>
+                      <div><strong>Balance:</strong> $1,500 (Debit)</div>
+                      <div><strong>Status:</strong> ✓ Recorded</div>
+                    </div>
+                  </div>
+
+                  <div class="border-l-4 border-green-500 pl-4">
+                    <h4 class="font-bold text-lg mb-2">Step 9: Check Vendor Balance</h4>
+                    <p class="mb-3">Xem công nợ với Cardinal Properties.</p>
+                    <div class="bg-green-50 p-3 rounded text-sm">
+                      <div><strong>Vendor:</strong> CARDINAL</div>
+                      <div><strong>Open Items:</strong> $1,500</div>
+                      <div><strong>Status:</strong> 🔴 Open (Chưa thanh toán)</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 10-12: Thanh toán và Financial Statement -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-green-700 flex items-center">
+                <span class="badge badge-success mr-3">Step 10-12</span>
+                Thanh toán và Báo cáo tài chính
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="border-l-4 border-emerald-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 10: Post Payment - Trả tiền cho Landlord</h4>
+                  <p class="mb-3">Thanh toán $1,500 cho Cardinal Properties qua tài khoản rent payment.</p>
+                  <div class="code-snippet">
+                    <div class="text-green-400">// Bút toán thanh toán - Clearing công nợ</div>
+                    <div class="text-white">Dr: CARDINAL (Clear AP)           $1,500</div>
+                    <div class="text-white">Cr: 112000 - Bank Rent Account   $1,500</div>
+                    <div class="text-yellow-400">// Payment Method: Bank Transfer</div>
+                  </div>
+                  <div class="alert alert-success mt-3 text-sm">
+                    <i class="fas fa-check mr-1"></i>
+                    Sau khi post, công nợ sẽ chuyển từ "Open" sang "Cleared" - không còn treo nữa.
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-cyan-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 11: Verify Payment Clearing</h4>
+                  <p class="mb-3">Kiểm tra trạng thái clearing của công nợ với vendor.</p>
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-red-50 p-3 rounded text-sm">
+                      <div class="font-bold text-red-700">Trước thanh toán:</div>
+                      <div>Status: Open</div>
+                      <div>Amount: $1,500</div>
+                      <div>Due Date: 30/08/2025</div>
+                    </div>
+                    <div class="bg-green-50 p-3 rounded text-sm">
+                      <div class="font-bold text-green-700">Sau thanh toán:</div>
+                      <div>Status: Cleared ✓</div>
+                      <div>Amount: $0</div>
+                      <div>Cleared Date: 01/08/2025</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-violet-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 12: Run Financial Statement</h4>
+                  <p class="mb-3">Chạy báo cáo Balance Sheet và Income Statement để xem kết quả cuối cùng.</p>
+                  
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div class="modern-table">
+                      <table class="w-full">
+                        <thead>
+                          <tr>
+                            <th colspan="2" class="text-center">Balance Sheet Impact</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Bank - Main Account</td>
+                            <td>$(5,000)</td>
+                          </tr>
+                          <tr>
+                            <td>Bank - Rent Account</td>
+                            <td>$3,500</td>
+                          </tr>
+                          <tr>
+                            <td>Accounts Payable</td>
+                            <td>$0</td>
+                          </tr>
+                          <tr class="font-bold">
+                            <td>Net Cash Impact</td>
+                            <td>$(1,500)</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="modern-table">
+                      <table class="w-full">
+                        <thead>
+                          <tr>
+                            <th colspan="2" class="text-center">Income Statement Impact</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Rent Expense</td>
+                            <td>$1,500</td>
+                          </tr>
+                          <tr>
+                            <td>Other Income</td>
+                            <td>$0</td>
+                          </tr>
+                          <tr class="font-bold">
+                            <td>Net Income Impact</td>
+                            <td>$(1,500)</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-center section-header">
+                Tổng kết quy trình FI-AP hoàn chỉnh
+              </h3>
+              
+              <div class="alert alert-success mb-6">
+                <i class="fas fa-trophy mr-2"></i>
+                <strong>Kết quả đạt được:</strong> Đã hoàn thành đầy đủ quy trình FI-AP từ thiết lập master data đến báo cáo tài chính cuối cùng.
+              </div>
+
+              <div class="grid md:grid-cols-3 gap-4">
+                <div class="info-card text-center">
+                  <i class="fas fa-database text-3xl text-blue-500 mb-3"></i>
+                  <h4 class="font-bold mb-2">Master Data</h4>
+                  <p class="text-sm">G/L Accounts, Vendor Master, Cost Centers đã được thiết lập hoàn chỉnh</p>
+                </div>
+                <div class="info-card text-center">
+                  <i class="fas fa-exchange-alt text-3xl text-green-500 mb-3"></i>
+                  <h4 class="font-bold mb-2">Transaction Flow</h4>
+                  <p class="text-sm">Journal Entry, Sub-ledger, Payment, Clearing theo đúng quy trình chuẩn</p>
+                </div>
+                <div class="info-card text-center">
+                  <i class="fas fa-chart-bar text-3xl text-purple-500 mb-3"></i>
+                  <h4 class="font-bold mb-2">Financial Reporting</h4>
+                  <p class="text-sm">Balance Sheet và Income Statement phản ánh chính xác impact của giao dịch</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Case Study AA Section -->
+        <section id="case-aa" class="content-section">
+          <div class="mb-8">
+            <h2 class="text-4xl font-bold mb-4 section-header">
+              Case Study: FI-AA - Kế toán Tài sản
+            </h2>
+            <p class="text-gray-600 text-lg">Asset Lifecycle hoàn chỉnh từ lên kế hoạch đến thanh lý</p>
+          </div>
+
+          <div class="glass-card p-8 mb-8">
+            <div class="flex items-start mb-6">
+              <div class="bg-gradient-to-r from-green-500 to-emerald-500 p-4 rounded-full mr-6 shadow-lg">
+                <i class="fas fa-laptop text-white text-2xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-3xl font-semibold mb-6 text-gray-800 flex items-center">
+                  Mục tiêu Case Study
+                  <span class="badge badge-success ml-3">Asset Lifecycle</span>
+                </h3>
+                <div class="alert alert-info mb-6">
+                  <i class="fas fa-target mr-2"></i>
+                  <strong>Kịch bản:</strong> Mô phỏng toàn bộ vòng đời tài sản laptop từ lên kế hoạch, mua sắm, ghi nhận, khấu hao đến thanh lý trong SAP FI-AA.
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                  <div class="info-card">
+                    <h4 class="font-bold text-lg mb-3 text-green-700">
+                      <i class="fas fa-cogs mr-2"></i>Asset Management Process
+                    </h4>
+                    <ul class="feature-list text-sm space-y-1">
+                      <li>Tạo Cost Center cho theo dõi</li>
+                      <li>Tạo Asset Master Record</li>
+                      <li>Purchase Order với Asset Assignment</li>
+                      <li>Goods Receipt → Capitalization</li>
+                      <li>Invoice với Additional Costs</li>
+                      <li>Asset Retirement và Loss Recognition</li>
+                    </ul>
+                  </div>
+                  <div class="info-card">
+                    <h4 class="font-bold text-lg mb-3 text-blue-700">
+                      <i class="fas fa-chart-line mr-2"></i>Tích hợp Module
+                    </h4>
+                    <ul class="feature-list text-sm space-y-1">
+                      <li>MM (Material Management) - Purchase Order</li>
+                      <li>CO (Controlling) - Cost Center Assignment</li>
+                      <li>FI (Financial) - GL Posting & Reporting</li>
+                      <li>AA (Asset Accounting) - Depreciation</li>
+                      <li>Automatic Journal Entries</li>
+                      <li>Financial Statement Impact</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-8">
+            <!-- Step 1-2: Cost Center và Asset Master -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-blue-700 flex items-center">
+                <span class="badge badge-primary mr-3">Step 1-2</span>
+                Tạo Cost Center và Asset Master Record
+              </h3>
+              
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="border-l-4 border-blue-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 1: Create Cost Center</h4>
+                  <p class="mb-3">Tạo cost center "Asset Procurement" để theo dõi chi phí tài sản theo bộ phận.</p>
+                  <div class="bg-gray-50 p-3 rounded text-sm space-y-1">
+                    <div><strong>Cost Center:</strong> CC-ASSET-001</div>
+                    <div><strong>Description:</strong> Asset Procurement Center</div>
+                    <div><strong>Department:</strong> IT Department</div>
+                    <div><strong>Purpose:</strong> Track asset-related costs</div>
+                  </div>
+                  <div class="alert alert-info mt-3 text-sm">
+                    <i class="fas fa-lightbulb mr-1"></i>
+                    <strong>Tại sao quan trọng?</strong> Khi ghi nhận khấu hao, chi phí sẽ tự động phân bổ về cost center này để báo cáo CO chính xác.
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-green-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 2: Create Asset Master Record</h4>
+                  <p class="mb-3">Tạo hồ sơ tài sản trong SAP - giống như đăng ký tài sản.</p>
+                  <div class="bg-gray-50 p-3 rounded text-sm space-y-1">
+                    <div><strong>Asset Number:</strong> LAPTOP-001</div>
+                    <div><strong>Asset Class:</strong> IT Equipment</div>
+                    <div><strong>Description:</strong> Business Laptop</div>
+                    <div><strong>Cost Center:</strong> CC-ASSET-001</div>
+                    <div><strong>Useful Life:</strong> 36 months</div>
+                  </div>
+                  <div class="alert alert-warning mt-3 text-sm">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Chưa phát sinh chi phí - chỉ chuẩn bị sổ để ghi khi có giao dịch.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3-4: Asset Overview và Purchase Order -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-green-700 flex items-center">
+                <span class="badge badge-success mr-3">Step 3-4</span>
+                Asset Overview và Create Purchase Order
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="border-l-4 border-purple-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 3: Asset Accounting Overview</h4>
+                  <p class="mb-3">Kiểm tra trạng thái tài sản trước khi thực hiện giao dịch.</p>
+                  <div class="modern-table">
+                    <table class="w-full text-sm">
+                      <thead>
+                        <tr>
+                          <th>Asset</th>
+                          <th>Status</th>
+                          <th>APC (Cost)</th>
+                          <th>Depreciation</th>
+                          <th>Net Book Value</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>LAPTOP-001</td>
+                          <td><span class="badge badge-warning">In Process</span></td>
+                          <td>€0</td>
+                          <td>€0</td>
+                          <td>€0</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="alert alert-info mt-3 text-sm">
+                    <strong>Ý nghĩa:</strong> Giúp kiểm tra sổ tài sản đầy đủ trước khi post nghiệp vụ thật.
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-orange-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 4: Create Purchase Order</h4>
+                  <p class="mb-3">Đặt laptop với vendor, sử dụng Asset Account Assignment thay vì Material Master.</p>
+                  <div class="code-snippet">
+                    <div class="text-green-400">// Purchase Order với Asset Assignment</div>
+                    <div class="text-white">Vendor: Tech Supplier Ltd</div>
+                    <div class="text-white">Item: Business Laptop Model X</div>
+                    <div class="text-white">Quantity: 1 EA</div>
+                    <div class="text-white">Price: €750</div>
+                    <div class="text-yellow-400">// Asset Assignment: LAPTOP-001</div>
+                  </div>
+                  <div class="alert alert-success mt-3 text-sm">
+                    <i class="fas fa-check mr-1"></i>
+                    <strong>Đặc biệt:</strong> Không qua kho, post trực tiếp vào asset khi hàng về.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 5-6: Goods Receipt và Asset After GR -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-purple-700 flex items-center">
+                <span class="badge badge-primary mr-3">Step 5-6</span>
+                Goods Receipt và Asset Capitalization
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="border-l-4 border-emerald-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 5: Post Goods Receipt</h4>
+                  <p class="mb-3">Nhận laptop từ vendor và post GR trong SAP.</p>
+                  <div class="code-snippet">
+                    <div class="text-green-400">// FI-AA Tự động diễn ra khi GR</div>
+                    <div class="text-white">Dr: Asset - LAPTOP-001         €750</div>
+                    <div class="text-white">Cr: GR/IR Clearing Account     €750</div>
+                    <div class="text-yellow-400">// Asset Status: In Process → Capitalized</div>
+                    <div class="text-yellow-400">// Depreciation Schedule: Activated</div>
+                  </div>
+                  <div class="alert alert-success mt-3 text-sm">
+                    <i class="fas fa-cogs mr-1"></i>
+                    Hệ thống tự động kích hoạt asset và lên lịch khấu hao 36 tháng.
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-teal-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 6: Asset After Goods Receipt</h4>
+                  <p class="mb-3">Kiểm tra trạng thái và giá trị tài sản sau khi GR.</p>
+                  
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-green-50 p-4 rounded-lg">
+                      <h5 class="font-bold text-green-700 mb-2">Asset Status:</h5>
+                      <ul class="text-sm space-y-1">
+                        <li>• Status: <span class="badge badge-success">Capitalized</span></li>
+                        <li>• APC (Cost): €750</li>
+                        <li>• Monthly Depreciation: €20.83</li>
+                        <li>• Net Book Value: €729.17</li>
+                      </ul>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                      <h5 class="font-bold text-blue-700 mb-2">Depreciation Details:</h5>
+                      <ul class="text-sm space-y-1">
+                        <li>• Method: Straight Line</li>
+                        <li>• Useful Life: 36 months</li>
+                        <li>• Start Date: August 2025</li>
+                        <li>• Annual Depreciation: €250</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 7-8: Supplier Invoice và Asset Adjustment -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-red-700 flex items-center">
+                <span class="badge badge-primary mr-3">Step 7-8</span>
+                Supplier Invoice và Asset Value Adjustment
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="border-l-4 border-red-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 7: Post Supplier Invoice</h4>
+                  <p class="mb-3">Vendor gửi hóa đơn có phí giao hàng phát sinh thêm €50.</p>
+                  <div class="code-snippet">
+                    <div class="text-green-400">// Bút toán điều chỉnh tăng APC</div>
+                    <div class="text-white">Dr: Asset - LAPTOP-001         €50</div>
+                    <div class="text-white">Cr: Accounts Payable           €50</div>
+                    <div class="text-yellow-400">// Asset APC: €750 → €800</div>
+                  </div>
+                  <div class="alert alert-warning mt-3 text-sm">
+                    <i class="fas fa-exclamation-triangle mr-1"></i>
+                    <strong>Quan trọng:</strong> Tài sản được điều chỉnh tăng thêm €50, khấu hao được tính lại theo giá trị mới.
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-indigo-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 8: Asset After Invoice Adjustment</h4>
+                  <p class="mb-3">Hệ thống tự động update asset value và depreciation schedule.</p>
+                  
+                  <div class="modern-table">
+                    <table class="w-full text-sm">
+                      <thead>
+                        <tr>
+                          <th>Value Type</th>
+                          <th>Before Invoice</th>
+                          <th>After Invoice</th>
+                          <th>Change</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>APC (Cost)</td>
+                          <td>€750</td>
+                          <td>€800</td>
+                          <td class="text-green-600">+€50</td>
+                        </tr>
+                        <tr>
+                          <td>Monthly Depreciation</td>
+                          <td>€20.83</td>
+                          <td>€22.22</td>
+                          <td class="text-blue-600">+€1.39</td>
+                        </tr>
+                        <tr>
+                          <td>Annual Depreciation</td>
+                          <td>€250</td>
+                          <td>€266.67</td>
+                          <td class="text-blue-600">+€16.67</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="alert alert-info mt-3 text-sm">
+                    <i class="fas fa-robot mr-1"></i>
+                    Hệ thống tự động update mọi thứ dựa trên FI Document từ invoice.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 9-10: Asset Retirement -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-orange-700 flex items-center">
+                <span class="badge badge-success mr-3">Step 9-10</span>
+                Asset Retirement và Final Status
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="border-l-4 border-orange-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 9: Post Asset Retirement</h4>
+                  <p class="mb-3">Phát hiện laptop không phù hợp → bán lại với giá €700 (thấp hơn Net Book Value €780).</p>
+                  <div class="code-snippet">
+                    <div class="text-green-400">// Bút toán thanh lý tài sản</div>
+                    <div class="text-white">Dr: Bank Account               €700</div>
+                    <div class="text-white">Dr: Loss on Asset Disposal     €100</div>
+                    <div class="text-white">Cr: Asset - LAPTOP-001         €800</div>
+                    <div class="text-yellow-400">// Asset Status: Capitalized → Retired</div>
+                  </div>
+                  
+                  <div class="grid md:grid-cols-2 gap-4 mt-4">
+                    <div class="bg-red-50 p-3 rounded text-sm">
+                      <div class="font-bold text-red-700">Tình huống:</div>
+                      <div>• Sale Price: €700</div>
+                      <div>• Net Book Value: €800</div>
+                      <div>• Loss on Disposal: €100</div>
+                    </div>
+                    <div class="bg-blue-50 p-3 rounded text-sm">
+                      <div class="font-bold text-blue-700">Method:</div>
+                      <div>• Internal Sale (No Customer)</div>
+                      <div>• Direct Bank Posting</div>
+                      <div>• Immediate Recognition</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-gray-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 10: Asset Final Status</h4>
+                  <p class="mb-3">Kiểm tra trạng thái cuối cùng của tài sản sau thanh lý.</p>
+                  
+                  <div class="modern-table">
+                    <table class="w-full text-sm">
+                      <thead>
+                        <tr>
+                          <th>Asset Info</th>
+                          <th>Before Retirement</th>
+                          <th>After Retirement</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Status</td>
+                          <td><span class="badge badge-success">Capitalized</span></td>
+                          <td><span class="badge badge-secondary">Retired</span></td>
+                        </tr>
+                        <tr>
+                          <td>Net Book Value</td>
+                          <td>€800</td>
+                          <td>€0</td>
+                        </tr>
+                        <tr>
+                          <td>Monthly Depreciation</td>
+                          <td>€22.22</td>
+                          <td>€0 (Stopped)</td>
+                        </tr>
+                        <tr>
+                          <td>Active in System</td>
+                          <td>✓ Yes</td>
+                          <td>✗ Removed from Active List</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Financial Statement Impact -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-green-700 flex items-center">
+                <span class="badge badge-success mr-3">Final Analysis</span>
+                Impact trên Báo cáo tài chính
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="alert alert-info">
+                  <i class="fas fa-chart-bar mr-2"></i>
+                  <strong>Tổng kết:</strong> Toàn bộ asset lifecycle từ mua đến bán đều được ghi nhận chính xác và tự động trong SAP.
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div class="border-l-4 border-blue-500 pl-4">
+                    <h4 class="font-bold text-lg mb-3">Balance Sheet Impact</h4>
+                    <div class="modern-table">
+                      <table class="w-full text-sm">
+                        <thead>
+                          <tr>
+                            <th>Account</th>
+                            <th>Before</th>
+                            <th>After</th>
+                            <th>Net Impact</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Fixed Assets</td>
+                            <td>€800</td>
+                            <td>€0</td>
+                            <td class="text-red-600">-€800</td>
+                          </tr>
+                          <tr>
+                            <td>Bank Account</td>
+                            <td>€0</td>
+                            <td>€700</td>
+                            <td class="text-green-600">+€700</td>
+                          </tr>
+                          <tr class="font-bold">
+                            <td>Net Asset Change</td>
+                            <td>€800</td>
+                            <td>€700</td>
+                            <td class="text-red-600">-€100</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="border-l-4 border-green-500 pl-4">
+                    <h4 class="font-bold text-lg mb-3">Income Statement Impact</h4>
+                    <div class="modern-table">
+                      <table class="w-full text-sm">
+                        <thead>
+                          <tr>
+                            <th>Expense Type</th>
+                            <th>Amount</th>
+                            <th>Period</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Monthly Depreciation</td>
+                            <td>€22.22</td>
+                            <td>Stopped</td>
+                          </tr>
+                          <tr>
+                            <td>Loss on Asset Disposal</td>
+                            <td>€100</td>
+                            <td>August 2025</td>
+                          </tr>
+                          <tr class="font-bold">
+                            <td>Total Expense Impact</td>
+                            <td>€100</td>
+                            <td>One-time</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Key Learnings -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-center section-header">
+                Ý nghĩa tổng quát của FI-AA Process
+              </h3>
+              
+              <div class="grid md:grid-cols-3 gap-6 mb-6">
+                <div class="info-card text-center">
+                  <i class="fas fa-industry text-3xl text-blue-500 mb-3"></i>
+                  <h4 class="font-bold mb-2">Universal Application</h4>
+                  <p class="text-sm">Không doanh nghiệp nào không dùng FI-AA nếu có tài sản cố định</p>
+                </div>
+                <div class="info-card text-center">
+                  <i class="fas fa-link text-3xl text-green-500 mb-3"></i>
+                  <h4 class="font-bold mb-2">Tight Integration</h4>
+                  <p class="text-sm">Tích hợp chặt với MM (mua sắm), CO (chi phí), FI (báo cáo)</p>
+                </div>
+                <div class="info-card text-center">
+                  <i class="fas fa-calculator text-3xl text-purple-500 mb-3"></i>
+                  <h4 class="font-bold mb-2">Automatic Calculation</h4>
+                  <p class="text-sm">Tự động tính khấu hao, adjustment, và financial impact</p>
+                </div>
+              </div>
+
+              <div class="alert alert-success">
+                <i class="fas fa-lightbulb mr-2"></i>
+                <strong>Kiến thức nâng cao cần tìm hiểu thêm:</strong>
+                <ul class="list-disc list-inside mt-2 ml-4 space-y-1">
+                  <li><strong>Asset Class và Depreciation Area:</strong> Cấu hình các loại tài sản và vùng khấu hao</li>
+                  <li><strong>Asset Acquisition Methods:</strong> So sánh mua qua PO vs. trực tiếp</li>
+                  <li><strong>Retirement Methods:</strong> Các phương thức bán tài sản (có/không customer)</li>
+                  <li><strong>Depreciation Methods:</strong> Straight-line, declining balance, units of production</li>
+                  <li><strong>Asset Transfer:</strong> Chuyển tài sản giữa các cost center/company code</li>
+                </ul>
+              </div>
+
+              <div class="mt-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg">
+                <h4 class="font-bold text-lg mb-3 text-center">🎯 Tổng kết Case Study FI-AA</h4>
+                <p class="text-center text-gray-700">
+                  FI-AA không chỉ là ghi sổ tài sản mà là hệ thống quản trị tài sản toàn diện, 
+                  tự động hóa khấu hao, theo dõi giá trị, và cung cấp thông tin chính xác cho việc ra quyết định đầu tư.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Case Study IM Section -->
+        <section id="case-im" class="content-section">
+          <div class="mb-8">
+            <h2 class="text-4xl font-bold mb-4 section-header">
+              Case Study: FI-IM - Quản lý Đầu tư
+            </h2>
+            <p class="text-gray-600 text-lg">Dự án đầu tư xây dựng khu làm việc mới từ lập kế hoạch đến capitalization</p>
+          </div>
+
+          <div class="space-y-8">
+            <!-- Step 1-2: Cost Center và Appropriation Request -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-blue-700 flex items-center">
+                <span class="badge badge-primary mr-3">Step 1-2</span>
+                Tạo Cost Center và Appropriation Request
+              </h3>
+              
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="border-l-4 border-blue-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 1: Create Cost Center - Asset Procurement</h4>
+                  <p class="mb-3">Tạo cost center để theo dõi chi phí đầu tư và nhận khấu hao sau này.</p>
+                  <div class="bg-gray-50 p-3 rounded text-sm space-y-1">
+                    <div><strong>Cost Center:</strong> CC-INVEST-001</div>
+                    <div><strong>Description:</strong> Asset Procurement Center</div>
+                    <div><strong>Department:</strong> Investment Management</div>
+                    <div><strong>Purpose:</strong> Track investment-related costs</div>
+                  </div>
+                  <div class="alert alert-info mt-3 text-sm">
+                    <i class="fas fa-lightbulb mr-1"></i>
+                    <strong>Tại sao cần?</strong> Dự án có thể kéo dài, chi phí từ nhiều nguồn cần một "địa chỉ chịu chi phí" để theo dõi. -> <strong>Cost Center</strong>
+                  </div>
+
+                    <div class="p-4 bg-red-50 border-l-4 border-red-500 rounded mb-2">
+                      <span class="font-bold text-red-700">📌 Nếu không có thì?:</span>
+                        <ul class="list-disc list-inside mt-2 text-sm text-gray-700 space-y-1">
+                          <li>Không thể tracking chi phí đầu tư theo bộ phận → báo cáo CO sai → không thể tính lãi/lỗ bộ phận</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="border-l-4 border-green-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 2: Create Appropriation Request (AR)</h4>
+                  <p class="mb-3">Tạo phiếu đề xuất đầu tư - "Investment Proposal" để xin phê duyệt.</p>
+                  <div class="bg-gray-50 p-3 rounded text-sm space-y-1">
+                    <div><strong>AR Number:</strong> INV-2025-001</div>
+                    <div><strong>Description:</strong> New Workspace Construction</div>
+                    <div><strong>Estimated Cost:</strong> €15,000</div>
+                    <div><strong>Start Date:</strong> 01/08/2025</div>
+                    <div><strong>Status:</strong> Created</div>
+                  </div>
+                  <div class="alert alert-warning mt-3 text-sm">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Đây là bước tiền khởi động giúp không vung tiền không kiểm soát.
+                    Là cơ sở để lên <strong>budget</strong> (ngân sách) và tạo <strong>investment measure</strong>.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3-5: Investment Program Setup -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-green-700 flex items-center">
+                <span class="badge badge-success mr-3">Step 3-5</span>
+                Investment Program Structure & Hierarchy
+              </h3>
+              
+              <div class="space-y-8">
+                <!-- Step 3: Create Investment Program -->
+                <div class="border-l-4 border-purple-500 pl-4">
+                  <h4 class="font-bold text-lg mb-3 text-purple-700">Step 3: Create Investment Program & Define Structure</h4>
+                  <p class="mb-4">Tạo chương trình đầu tư chính, đặt tên program, năm được duyệt và loại program (01 - Investment).</p>
+                  
+                  <div class="code-snippet mb-4">
+                    <div class="text-green-400">// Create Investment Program - Transaction CJ20N</div>
+                    <div class="text-white">Program ID: GLOBAL-BIKE-2025</div>
+                    <div class="text-white">Description: Global Bike Investment Program</div>
+                    <div class="text-white">Program Type: 01 - Investment</div>
+                    <div class="text-white">Status: Created</div>
+                    <div class="text-yellow-400">// Auto-inherited from Company Code DE00:</div>
+                    <div class="text-yellow-400">// Fiscal Year Variant: K1 (12 tháng/kỳ kế toán)</div>
+                    <div class="text-yellow-400">// Currency: EUR</div>
+                  </div>
+
+                  <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                    <h5 class="font-bold text-blue-700 mb-2">🧠 Thực tế vận hành:</h5>
+                    <ul class="text-sm space-y-1">
+                      <li>• Tập đoàn chia ngân sách theo vùng, quốc gia, nhà máy</li>
+                      <li>• Mỗi Investment Program là một <strong>Big Investment Program</strong> chứa nhiều project nhỏ</li>
+                      <li>• Giúp phân bổ ngân sách theo cấp và quản lý dòng tiền tập đoàn chặt chẽ</li>
+                    </ul>
+                  </div>
+
+                  <div class="bg-green-50 p-4 rounded-lg mb-4">
+                    <h5 class="font-bold text-green-700 mb-2">💡 Trong SAP:</h5>
+                    <p class="text-sm">Investment Program giống cây phân cấp: <br>
+                    <strong>Tập đoàn → Europe (Region) → Germany (Country) → Heidelberg (City/Province)</strong></p>
+                  </div>
+
+                  <div class="alert alert-info text-sm">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    <strong>Fiscal Year Variant & Currency:</strong> Hệ thống tự động lấy từ cấu hình Company Code DE00 (K1 - 12 tháng, EUR).
+                  </div>
+                </div>
+
+                <!-- Step 4: Create Program Position -->
+                <div class="border-l-4 border-orange-500 pl-4">
+                  <h4 class="font-bold text-lg mb-3 text-orange-700">Step 4: Create Investment Program Position</h4>
+                  <p class="mb-4">Tạo vị trí dự án con trong chương trình đầu tư - mỗi "position" là một ô chứa project cụ thể.</p>
+                  
+                  <div class="bg-yellow-50 p-4 rounded-lg mb-4">
+                    <h5 class="font-bold text-yellow-700 mb-2">🧠 Nghiệp vụ thực tế:</h5>
+                    <ul class="text-sm space-y-1">
+                      <li>• Tạo vị trí dự án con trong chương trình đầu tư</li>
+                      <li>• Mỗi "position" là một ô chứa project cụ thể (ví dụ: Bàn làm việc VP sản xuất)</li>
+                      <li>• Để gán ngân sách riêng, kiểm tra tiến độ riêng</li>
+                      <li>• Giúp trưởng bộ phận tự quản lý vốn đầu tư dưới quyền mình</li>
+                    </ul>
+                  </div>
+
+                  <div class="modern-table mb-4">
+                    <table class="w-full text-sm">
+                      <thead>
+                        <tr>
+                          <th>Hierarchy Level</th>
+                          <th>Position Description</th>
+                          <th>Position ID</th>
+                          <th>Investment Type</th>
+                          <th>Budget Limit</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1. Region</td>
+                          <td>Europe Operations</td>
+                          <td>EUR-REG</td>
+                          <td>Regional Infrastructure</td>
+                          <td>€50,000</td>
+                        </tr>
+                        <tr>
+                          <td>2. Country</td>
+                          <td>Germany Division</td>
+                          <td>GER-COUNTRY</td>
+                          <td>National Projects</td>
+                          <td>€30,000</td>
+                        </tr>
+                        <tr>
+                          <td>3. City</td>
+                          <td>Heidelberg Branch</td>
+                          <td>HD-CITY</td>
+                          <td>Local Infrastructure</td>
+                          <td>€15,000</td>
+                        </tr>
+                        <tr>
+                          <td>4. Project</td>
+                          <td>Workspace Furniture</td>
+                          <td>WS-FURNITURE</td>
+                          <td>Asset/Equipment</td>
+                          <td>€15,000</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="bg-orange-50 p-4 rounded-lg">
+                    <h5 class="font-bold text-orange-700 mb-2">💡 Trong SAP:</h5>
+                    <ul class="text-sm space-y-1">
+                      <li>• Đặt tên, code, phân loại đầu tư (Asset / R&D / Building…)</li>
+                      <li>• Mỗi position có thể set budget limit riêng</li>
+                      <li>• Hierarchy structure giúp roll-up báo cáo theo cấp</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Step 5: Assign AR to Program Position -->
+                <div class="border-l-4 border-teal-500 pl-4">
+                  <h4 class="font-bold text-lg mb-3 text-teal-700">Step 5: Assign Appropriation Request to Program Position</h4>
+                  <p class="mb-4">Gắn phiếu đề xuất đầu tư vào đúng "vị trí ngân sách" trong chương trình (lowest level trong hierarchy -> SAP Standard).</p>
+                  
+                  <div class="code-snippet mb-4">
+                    <div class="text-green-400">// Assignment Process</div>
+                    <div class="text-white">AR Number: INV-2025-001</div>
+                    <div class="text-white">Assigned to Position: WS-FURNITURE (Level 4 - Lowest)</div>
+                    <div class="text-white">Assignment Rule: SAP Standard (Must be lowest level)</div>
+                    <div class="text-yellow-400">// Both sides synchronize data automatically</div>
+                  </div>
+
+                  <div class="bg-teal-50 p-4 rounded-lg mb-4">
+                    <h5 class="font-bold text-teal-700 mb-2">🧠 Thực tế:</h5>
+                    <ul class="text-sm space-y-1">
+                      <li>• Gắn phiếu đề xuất đầu tư vào đúng "vị trí ngân sách" trong chương trình</li>
+                      <li>• Cả hai bên sẽ đồng bộ dữ liệu tự động</li>
+                      <li>• Có thể roll up tổng chi phí lên program để thấy toàn bộ kế hoạch đầu tư toàn vùng</li>
+                    </ul>
+                  </div>
+
+                  <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-green-50 p-4 rounded-lg">
+                      <h5 class="font-bold text-green-700 mb-2">💡 Trong SAP:</h5>
+                      <ul class="text-sm space-y-1">
+                        <li>• Assignment chỉ được phép ở lowest level</li>
+                        <li>• Data tự động roll-up lên các level cao hơn</li>
+                        <li>• Tracking được full traceability</li>
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-lg">
+                      <h5 class="font-bold text-red-700 mb-2">📌 Nếu không làm:</h5>
+                      <ul class="text-sm space-y-1">
+                        <li>• Không trace được chi phí dự kiến vs thực tế</li>
+                        <li>• Mất kết nối với ngân sách được duyệt</li>
+                        <li>• Không theo dõi được tiến độ thanh toán</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="alert alert-success text-sm">
+                    <i class="fas fa-link mr-1"></i>
+                    <strong>Kết quả:</strong> AR INV-2025-001 → WS-FURNITURE position. Cả hai bên đồng bộ dữ liệu để roll up tổng chi phí và tracking toàn diện.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 6-8: Roll Up và Release -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-purple-700 flex items-center">
+                <span class="badge badge-primary mr-3">Step 6-8</span>
+                Roll Up Values và Release Approval
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="border-l-4 border-indigo-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 6: Roll Up Investment Program Values</h4>
+                  <p class="mb-3">Gom chi phí từ AR lên các cấp program để thống kê tổng nhu cầu đầu tư.</p>
+                  
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                      <h5 class="font-bold text-blue-700 mb-2">Before Roll Up:</h5>
+                      <ul class="text-sm space-y-1">
+                        <li>• WS-FURNITURE: €0</li>
+                        <li>• HD-CITY: €0</li>
+                        <li>• GER-COUNTRY: €0</li>
+                        <li>• EUR-REG: €0</li>
+                      </ul>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                      <h5 class="font-bold text-green-700 mb-2">After Roll Up:</h5>
+                      <ul class="text-sm space-y-1">
+                        <li>• WS-FURNITURE: €15,000</li>
+                        <li>• HD-CITY: €15,000</li>
+                        <li>• GER-COUNTRY: €15,000</li>
+                        <li>• EUR-REG: €15,000</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-emerald-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 7-8: Display và Release AR</h4>
+                  <p class="mb-3">Phòng tài chính xem xét và duyệt đề xuất đầu tư.</p>
+                  <div class="code-snippet">
+                    <div class="text-green-400">// AR Status Change</div>
+                    <div class="text-white">Status: Created → Released</div>
+                    <div class="text-white">Approved By: CFO</div>
+                    <div class="text-white">Approved Date: 02/08/2025</div>
+                    <div class="text-yellow-400">// Now can create Internal Order & PO</div>
+                  </div>
+                  <div class="alert alert-warning mt-3 text-sm">
+                    <i class="fas fa-shield-alt mr-1"></i>
+                    <strong>Kiểm soát đầu tiên:</strong> Chỉ AR Released mới được tạo Internal Order và phát sinh chi phí.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 9-11: Internal Order và AUC Setup -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-red-700 flex items-center">
+                <span class="badge badge-primary mr-3">Step 9-11</span>
+                Internal Order và Asset Under Construction
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="border-l-4 border-red-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 9: Create Internal Order for Investment</h4>
+                  <p class="mb-3">Tạo "đơn vị chịu trách nhiệm đầu tư" để gom toàn bộ chi phí phát sinh. (được tạo theo template -> ở đây là Investment và có link tới AR)</p>
+                  <div class="bg-gray-50 p-3 rounded text-sm space-y-1">
+                    <div><strong>Internal Order:</strong> IO-INV-001</div>
+                    <div><strong>Order Type:</strong> Investment Order</div>
+                    <div><strong>Description:</strong> Workspace Investment Project</div>
+                    <div><strong>Linked AR:</strong> INV-2025-001</div>
+                    <div><strong>Cost Center:</strong> CC-INVEST-001</div>
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-yellow-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 10: Create Asset Under Construction (AUC)</h4>
+                  <p class="mb-3">Tạo tài sản đang thi công - chưa hoàn tất, chưa khấu hao. (nhưng vẫn cần theo dõi giá trị dở dang)</p>
+                  <div class="bg-gray-50 p-3 rounded text-sm space-y-1">
+                    <div><strong>Asset Number:</strong> AUC-WS-001</div>
+                    <div><strong>Asset Class:</strong> Assets Under Construction</div>
+                    <div><strong>Description:</strong> Workspace Under Construction</div>
+                    <div><strong>Status:</strong> In Process</div>
+                    <div><strong>Depreciation:</strong> No (until capitalized)</div>
+                  </div>
+                  <div class="alert alert-info mt-3 text-sm">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    <strong>Lợi ích:</strong> Theo dõi giá trị dở dang, không ảnh hưởng Income Statement khi chưa sẵn sàng.
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-cyan-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 11: Link Order to AUC + AR</h4>
+                  <p class="mb-3">Internal Order là cầu nối giữa AR và AUC.</p>
+                  <div class="modern-table">
+                    <table class="w-full text-sm">
+                      <thead>
+                        <tr>
+                          <th>Component</th>
+                          <th>Link Status</th>
+                          <th>Function</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>AR ↔ Internal Order</td>
+                          <td>✓ Linked</td>
+                          <td>Budget control & approval</td>
+                        </tr>
+                        <tr>
+                          <td>Internal Order ↔ AUC</td>
+                          <td>✓ Linked</td>
+                          <td>Cost accumulation</td>
+                        </tr>
+                        <tr>
+                          <td>AUC → Final Asset</td>
+                          <td>⏳ Pending</td>
+                          <td>Capitalization (after settlement)</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="alert alert-info mt-3 text-sm">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    <strong>Note:</strong> Mọi chi phí phát sinh sẽ tự động đi vào AUC thông qua Order, sau này khi kết chuyển → chuyển toàn bộ vào Asset thật
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 12-14: Budget Allocation -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-orange-700 flex items-center">
+                <span class="badge badge-success mr-3">Step 12-14</span>
+                Budget Allocation và Distribution
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="border-l-4 border-orange-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 12: Allocate Budget to Investment Program</h4>
+                  <p class="mb-3">Tập đoàn phân bổ ngân sách €15,000 cho Investment Program</p>
+                  <div class="code-snippet">
+                    <div class="text-green-400">// Budget Allocation Process</div>
+                    <div class="text-white">Program: GLOBAL-BIKE-2025</div>
+                    <div class="text-white">Allocated Budget: €15,000</div>
+                    <div class="text-white">Distribution Rule: Top-down</div>
+                    <div class="text-yellow-400">// Preventive Control: Activate AVC</div>
+                  </div>
+
+                  <div class="alert alert-info mt-3 text-sm">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    <strong>Note:</strong> Allocate bằng Investment Program ID → có thể phân bổ xuống từng order
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-green-500 pl-4">
+                  <h4 class="font-bold text-lg mb-3 text-green-700">Step 13: Distribute Budget to Internal Order</h4>
+                  <p class="mb-4">Phân ngân sách xuống từng Internal Order cụ thể để kiểm soát chi tiêu theo dự án.</p>
+                  
+                  <div class="bg-green-50 p-4 rounded-lg mb-4">
+                    <h5 class="font-bold text-green-700 mb-2">🧠 Bản chất:</h5>
+                    <ul class="text-sm space-y-1">
+                      <li>• Phân ngân sách xuống từng order cụ thể từ Investment Program</li>
+                      <li>• Kiểm tra lại thứ tự xử lý, ngân sách còn bao nhiêu</li>
+                      <li>• Tạo "ví tiền" riêng cho mỗi dự án để chi tiêu có kiểm soát</li>
+                    </ul>
+                  </div>
+
+                  <div class="code-snippet mb-4">
+                    <div class="text-green-400">// Budget Distribution Process</div>
+                    <div class="text-white">From: Investment Program GLOBAL-BIKE-2025</div>
+                    <div class="text-white">To: Internal Order IO-INV-001</div>
+                    <div class="text-white">Amount: €15,000</div>
+                    <div class="text-white">Distribution Rule: Direct Assignment</div>
+                    <div class="text-yellow-400">// Now Order has its own "wallet"</div>
+                  </div>
+
+                  <div class="modern-table mb-4">
+                    <table class="w-full text-sm">
+                      <thead>
+                        <tr>
+                          <th>Internal Order</th>
+                          <th>Allocated Budget</th>
+                          <th>Committed</th>
+                          <th>Actual</th>
+                          <th>Available</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>IO-INV-001</td>
+                          <td>€15,000</td>
+                          <td>€0</td>
+                          <td>€0</td>
+                          <td>€15,000</td>
+                          <td>✓ Ready</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="bg-red-50 p-4 rounded-lg">
+                    <h5 class="font-bold text-red-700 mb-2">📌 Nếu không phân xuống:</h5>
+                    <ul class="text-sm space-y-1">
+                      <li>• PO sẽ bị reject khi vượt hạn mức order (không có budget để check)</li>
+                      <li>• Sẽ không thể kiểm soát cam kết chi tiêu (commitment)</li>
+                      <li>• AVC không hoạt động → risk chi tiêu vượt tầm kiểm soát</li>
+                      <li>• Không thể tracking theo dõi budget consumption realtime</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-blue-500 pl-4">
+                  <h4 class="font-bold text-lg mb-3 text-blue-700">Step 14: Check Budget Status & Activate Controls</h4>
+                  <p class="mb-4">Kiểm tra trạng thái ngân sách và kích hoạt các cơ chế kiểm soát trước khi bắt đầu purchase process.</p>
+                  
+                  <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                    <h5 class="font-bold text-blue-700 mb-2">🧠 Bản chất:</h5>
+                    <ul class="text-sm space-y-1">
+                      <li>• Đảm bảo tất cả budget đã được phân bổ chính xác</li>
+                      <li>• Kích hoạt Budget Availability Control (AVC) để kiểm soát realtime</li>
+                      <li>• Thiết lập tolerance level và action khi vượt budget</li>
+                    </ul>
+                  </div>
+
+                  <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                      <h5 class="font-bold text-blue-700 mb-2">Budget Health Check:</h5>
+                      <ul class="text-sm space-y-1">
+                        <li>• Program Budget: €15,000 ✓</li>
+                        <li>• Order Budget: €15,000 ✓</li>
+                        <li>• Distribution: 100% ✓</li>
+                        <li>• AVC Status: Active ✓</li>
+                      </ul>
+                    </div>
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                      <h5 class="font-bold text-yellow-700 mb-2">Control Settings:</h5>
+                      <ul class="text-sm space-y-1">
+                        <li>• PO Creation: Check Budget</li>
+                        <li>• GR Posting: Check Budget</li>
+                        <li>• Invoice Posting: Check Budget</li>
+                        <li>• Action: Warning/Block</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="alert alert-success text-sm mb-4">
+                    <i class="fas fa-check-circle mr-1"></i>
+                    <strong>Budget Availability Control (AVC) Active:</strong> SAP sẽ kiểm tra ngân sách khi tạo PO, GR, hoặc Invoice. Mọi transaction đều được kiểm soát chặt chẽ.
+                  </div>
+
+                  <div class="modern-table">
+                    <table class="w-full text-sm">
+                      <thead>
+                        <tr>
+                          <th>Control Point</th>
+                          <th>Check Type</th>
+                          <th>Threshold</th>
+                          <th>Action</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>PO Creation</td>
+                          <td>Commitment</td>
+                          <td>100% of Available</td>
+                          <td>Warning</td>
+                          <td>✓ Active</td>
+                        </tr>
+                        <tr>
+                          <td>Goods Receipt</td>
+                          <td>Actual Spending</td>
+                          <td>100% of Budget</td>
+                          <td>Block</td>
+                          <td>✓ Active</td>
+                        </tr>
+                        <tr>
+                          <td>Invoice Posting</td>
+                          <td>Final Cost</td>
+                          <td>105% of Budget</td>
+                          <td>Block</td>
+                          <td>✓ Active</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 15-17: Purchase Process -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-teal-700 flex items-center">
+                <span class="badge badge-primary mr-3">Step 15-17</span>
+                Purchase Process với Investment Control
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="border-l-4 border-teal-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 15: Create Purchase Order</h4>
+                  <p class="mb-3">Đặt mua bàn làm việc gắn với Investment Order.</p>
+                  <div class="code-snippet">
+                    <div class="text-green-400">// PO với Investment Assignment</div>
+                    <div class="text-white">PO Number: PO-INV-2025-001</div>
+                    <div class="text-white">Vendor: Office Furniture Ltd</div>
+                    <div class="text-white">Item: Workspace Desks & Chairs</div>
+                    <div class="text-white">Amount: €8,000</div>
+                    <div class="text-yellow-400">// Account Assignment: IO-INV-001</div>
+                  </div>
+                  <div class="alert alert-info mt-3 text-sm">
+                    <i class="fas fa-shield-alt mr-1"></i>
+                    <strong>AVC Check:</strong> SAP kiểm tra €8,000 ≤ €15,000 Available Budget → ✓ Approved
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-indigo-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 16: Post Goods Receipt</h4>
+                  <p class="mb-3">Nhận hàng và ghi nhận chi phí tạm thời vào Investment Order.</p>
+                  <div class="code-snippet">
+                    <div class="text-green-400">// GR Journal Entry</div>
+                    <div class="text-white">Dr: Internal Order (IO-INV-001)  €8,000</div>
+                    <div class="text-white">Cr: GR/IR Clearing Account       €8,000</div>
+                    <div class="text-yellow-400">// Không ghi Expense - vì là đầu tư</div>
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-purple-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 17: Post Supplier Invoice</h4>
+                  <p class="mb-3">Vendor gửi hóa đơn với phí vận chuyển thêm €500.</p>
+                  <div class="code-snippet">
+                    <div class="text-green-400">// Invoice với Additional Costs</div>
+                    <div class="text-white">Dr: Internal Order (IO-INV-001)  €500</div>
+                    <div class="text-white">Cr: Accounts Payable             €500</div>
+                    <div class="text-yellow-400">// Total Order Cost: €8,500</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 18-20: Budget Check và AUC Status -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-violet-700 flex items-center">
+                <span class="badge badge-success mr-3">Step 18-20</span>
+                Budget Monitoring và AUC Update
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="border-l-4 border-violet-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 18: Display Budget Status</h4>
+                  <p class="mb-3">Kiểm tra tình hình sử dụng ngân sách sau khi có chi phí phát sinh.</p>
+                  <div class="modern-table">
+                    <table class="w-full text-sm">
+                      <thead>
+                        <tr>
+                          <th>Budget Component</th>
+                          <th>Amount (€)</th>
+                          <th>Status</th>
+                          <th>Percentage</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Allocated Budget</td>
+                          <td>15,000</td>
+                          <td>✓ Active</td>
+                          <td>100%</td>
+                        </tr>
+                        <tr>
+                          <td>Committed (PO)</td>
+                          <td>8,000</td>
+                          <td>✓ Posted</td>
+                          <td>53.3%</td>
+                        </tr>
+                        <tr>
+                          <td>Actual (GR+Invoice)</td>
+                          <td>8,500</td>
+                          <td>✓ Posted</td>
+                          <td>56.7%</td>
+                        </tr>
+                        <tr>
+                          <td>Available Budget</td>
+                          <td>6,500</td>
+                          <td>✓ Available</td>
+                          <td>43.3%</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-pink-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 19: Check Internal Order Status</h4>
+                  <p class="mb-3">Xem chi tiết cost accumulation trên Internal Order.</p>
+                  <div class="bg-pink-50 p-4 rounded-lg">
+                    <h5 class="font-bold text-pink-700 mb-2">Internal Order: IO-INV-001</h5>
+                    <ul class="text-sm space-y-1">
+                      <li>• Furniture Cost: €8,000</li>
+                      <li>• Shipping Cost: €500</li>
+                      <li>• Total Accumulated: €8,500</li>
+                      <li>• Status: Open (ready for settlement)</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-rose-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Step 20: Check AUC After GR</h4>
+                  <p class="mb-3">AUC vẫn chưa có giá trị vì chưa settlement từ Internal Order.</p>
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-yellow-50 p-3 rounded text-sm">
+                      <div class="font-bold text-yellow-700">AUC Status:</div>
+                      <div>• Asset: AUC-WS-001</div>
+                      <div>• Current Value: €0</div>
+                      <div>• Status: Waiting Settlement</div>
+                    </div>
+                    <div class="bg-blue-50 p-3 rounded text-sm">
+                      <div class="font-bold text-blue-700">Pending Action:</div>
+                      <div>• Settlement từ IO → AUC</div>
+                      <div>• Final Capitalization</div>
+                      <div>• Start Depreciation</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 21: Settlement -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-emerald-700 flex items-center">
+                <span class="badge badge-success mr-3">Step 21</span>
+                Settlement - Kết chuyển sang AUC
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="border-l-4 border-emerald-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Settlement Process (Transaction KO88)</h4>
+                  <p class="mb-3">Kế toán chạy settlement để chuyển chi phí từ Internal Order sang AUC.</p>
+                  <div class="code-snippet">
+                    <div class="text-green-400">// Settlement Journal Entry</div>
+                    <div class="text-white">Dr: Asset AUC-WS-001           €8,500</div>
+                    <div class="text-white">Cr: Internal Order IO-INV-001  €8,500</div>
+                    <div class="text-yellow-400">// AUC bắt đầu "sống" trên sổ kế toán</div>
+                  </div>
+                  
+                  <div class="grid md:grid-cols-2 gap-4 mt-4">
+                    <div class="bg-red-50 p-4 rounded-lg">
+                      <h5 class="font-bold text-red-700 mb-2">Before Settlement:</h5>
+                      <ul class="text-sm space-y-1">
+                        <li>• Internal Order: €8,500</li>
+                        <li>• AUC Value: €0</li>
+                        <li>• Status: In Process</li>
+                      </ul>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                      <h5 class="font-bold text-green-700 mb-2">After Settlement:</h5>
+                      <ul class="text-sm space-y-1">
+                        <li>• Internal Order: €0 (can be closed)</li>
+                        <li>• AUC Value: €8,500</li>
+                        <li>• Status: Ready for Capitalization</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-green-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Next Step: Capitalization</h4>
+                  <p class="mb-3">Khi workspace hoàn thành và sẵn sàng sử dụng.</p>
+                  <div class="alert alert-info text-sm">
+                    <i class="fas fa-arrow-right mr-1"></i>
+                    <strong>Tiếp theo:</strong> AUC sẽ được chuyển thành Fixed Asset thật và bắt đầu depreciation schedule.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Preventive Control Deep Dive -->
+            <div class="glass-card p-6">
+              <h3 class="text-2xl font-semibold mb-4 text-red-700 flex items-center">
+                <span class="badge badge-warning mr-3">Deep Dive</span>
+                Cơ chế Preventive Control trong FI-IM
+              </h3>
+              
+              <div class="space-y-6">
+                <div class="alert alert-warning">
+                  <i class="fas fa-shield-alt mr-2"></i>
+                  <strong>Budget Availability Control (AVC):</strong> Cơ chế trung tâm giúp doanh nghiệp hạn chế chi tiêu vượt budget.
+                </div>
+
+                <div class="border-l-4 border-red-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Cách AVC hoạt động trong SAP</h4>
+                  <div class="modern-table">
+                    <table class="w-full text-sm">
+                      <thead>
+                        <tr>
+                          <th>Transaction</th>
+                          <th>AVC Check Point</th>
+                          <th>Action if Over Budget</th>
+                          <th>Example</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Create PO</td>
+                          <td>PO Amount vs Available</td>
+                          <td>Warning / Block</td>
+                          <td>€8,000 ≤ €15,000 ✓</td>
+                        </tr>
+                        <tr>
+                          <td>Goods Receipt</td>
+                          <td>GR Amount vs Budget</td>
+                          <td>Warning / Block</td>
+                          <td>€8,500 ≤ €15,000 ✓</td>
+                        </tr>
+                        <tr>
+                          <td>Invoice Receipt</td>
+                          <td>Total Cost vs Budget</td>
+                          <td>Warning / Block</td>
+                          <td>Cumulative check</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-yellow-500 pl-4">
+                  <h4 class="font-bold text-lg mb-2">Configuration Options</h4>
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-yellow-50 p-3 rounded text-sm">
+                      <div class="font-bold text-yellow-700">Warning Mode:</div>
+                      <div>• Hiển thị cảnh báo</div>
+                      <div>• Cho phép user override</div>
+                      <div>• Ghi log cho audit</div>
+                    </div>
+                    <div class="bg-red-50 p-3 rounded text-sm">
+                      <div class="font-bold text-red-700">Block Mode:</div>
+                      <div>• Chặn hoàn toàn transaction</div>
+                      <div>• Yêu cầu budget adjustment</div>
+                      <div>• Bảo vệ tuyệt đối dòng tiền</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Integration Section -->
+        <section id="integration" class="content-section">
+          <h2 class="text-3xl font-bold mb-6 border-b pb-2">
+            Tích hợp với các Module khác
+          </h2>
+          <div class="bg-white p-6 rounded-lg shadow-sm">
+            <p class="mb-6">
+              SAP FI không hoạt động một mình. Sức mạnh của SAP ERP nằm ở sự
+              tích hợp chặt chẽ, nơi FI là "trạm cuối" ghi nhận các nghiệp vụ
+              tài chính phát sinh từ các module khác.
+            </p>
+            <div class="space-y-6">
+              <div>
+                <h4 class="text-xl font-semibold mb-2">
+                  a. Tích hợp SD (Sales & Distribution) → FI-AR
+                </h4>
+                <p>
+                  Khi bộ phận bán hàng tạo hóa đơn (Billing - Tcode: VF01) trong
+                  SD, hệ thống sẽ tự động tạo một chứng từ FI tương ứng.
+                </p>
+                <p class="font-mono text-sm bg-gray-100 p-2 rounded mt-2">
+                  Bút toán tự động: Dr: Phải thu khách hàng / Cr: Doanh thu /
+                  Cr: Thuế GTGT đầu ra
+                </p>
+                <p class="mt-2">
+                  <strong>Lợi ích:</strong> Đảm bảo doanh thu được ghi nhận đúng
+                  thời điểm xuất hóa đơn, không có độ trễ, dữ liệu bán hàng và
+                  kế toán luôn khớp nhau.
+                </p>
+              </div>
+              <div>
+                <h4 class="text-xl font-semibold mb-2">
+                  b. Tích hợp MM (Materials Management) → FI-AP
+                </h4>
+                <p>
+                  Khi bộ phận mua hàng nhận hóa đơn từ nhà cung cấp và hạch toán
+                  trong MM (Invoice Verification - Tcode: MIRO), hệ thống cũng
+                  tự động tạo chứng từ FI.
+                </p>
+                <p class="font-mono text-sm bg-gray-100 p-2 rounded mt-2">
+                  Bút toán tự động: Dr: Hàng tồn kho hoặc Chi phí / Cr: Phải trả
+                  nhà cung cấp
+                </p>
+                <p class="mt-2">
+                  <strong>Lợi ích:</strong> Ghi nhận công nợ và chi phí chính
+                  xác ngay khi có hóa đơn, giúp quản lý tồn kho và công nợ hiệu
+                  quả.
+                </p>
+              </div>
+              <div>
+                <h4 class="text-xl font-semibold mb-2">
+                  c. Tích hợp CO (Controlling) ↔ FI
+                </h4>
+                <p>
+                  FI ghi nhận chi phí tổng hợp, còn CO "giải phẫu" chi phí đó để
+                  phục vụ quản trị nội bộ. Chi phí từ FI (ví dụ: tiền điện) sẽ
+                  được phân bổ vào các trung tâm chi phí (Cost Center) trong CO
+                  (ví dụ: xưởng sản xuất, phòng marketing). Đây là mối quan hệ 2
+                  chiều, giúp doanh nghiệp phân tích lợi nhuận, giá thành chi
+                  tiết.
+                </p>
+              </div>
+              <div>
+                <h4 class="text-xl font-semibold mb-2">
+                  d. Tích hợp FI-AA (Asset Accounting) ↔ FI
+                </h4>
+                <p>
+                  Khi mua tài sản cố định, FI-AA quản lý vòng đời tài sản. Hàng
+                  tháng, khi chạy chương trình khấu hao (Tcode: AFAB), FI-AA sẽ
+                  tự động tạo bút toán chi phí khấu hao và hạch toán vào sổ cái
+                  FI.
+                </p>
+                <p class="mt-2">
+                  <strong>Lợi ích:</strong> Tự động hóa hoàn toàn quy trình khấu
+                  hao, đảm bảo chi phí được ghi nhận đều đặn và chính xác.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Reporting Section -->
+        <section id="reporting" class="content-section">
+          <h2 class="text-3xl font-bold mb-6 border-b pb-2">
+            Báo cáo (Reporting) trong SAP FI
+          </h2>
+          <div class="bg-white p-6 rounded-lg shadow-sm">
+            <p class="mb-6">
+              Báo cáo là sản phẩm cuối cùng và quan trọng nhất của FI, tổng hợp
+              toàn bộ dữ liệu giao dịch thành thông tin hữu ích cho việc ra
+              quyết định của cả đối tượng bên trong và bên ngoài.
+            </p>
+            <div class="grid md:grid-cols-3 gap-6">
+              <div class="p-4 border rounded-lg bg-gray-50">
+                <h3 class="text-xl font-semibold mb-2">1. Balance Sheet</h3>
+                <p>
+                  <strong>(Bảng cân đối kế toán)</strong> Trình bày tình hình
+                  tài sản và nguồn vốn (Nợ phải trả + Vốn chủ sở hữu) tại một
+                  thời điểm. Trả lời câu hỏi: "Doanh nghiệp đang sở hữu gì và nợ
+                  bao nhiêu?".
+                </p>
+              </div>
+              <div class="p-4 border rounded-lg bg-gray-50">
+                <h3 class="text-xl font-semibold mb-2">2. Income Statement</h3>
+                <p>
+                  <strong>(Báo cáo kết quả kinh doanh)</strong> Trình bày doanh
+                  thu, chi phí và lợi nhuận trong một kỳ. Trả lời câu hỏi: "Kỳ
+                  này doanh nghiệp lãi hay lỗ?".
+                </p>
+              </div>
+              <div class="p-4 border rounded-lg bg-gray-50">
+                <h3 class="text-xl font-semibold mb-2">
+                  3. Cash Flow Statement
+                </h3>
+                <p>
+                  <strong>(Báo cáo lưu chuyển tiền tệ)</strong> Theo dõi dòng
+                  tiền mặt thực sự vào và ra khỏi doanh nghiệp. Trả lời câu hỏi:
+                  "Doanh nghiệp có đủ tiền để hoạt động không?".
+                </p>
+              </div>
+            </div>
+            <div class="mt-8">
+              <h3 class="text-xl font-semibold mb-3">
+                Các tính năng nổi bật của báo cáo SAP FI
+              </h3>
+              <ul class="list-disc list-inside space-y-3">
+                <li>
+                  <strong>Real-time:</strong> Dữ liệu được cập nhật lên báo cáo
+                  ngay sau khi giao dịch được hạch toán.
+                </li>
+                <li>
+                  <strong>Drill-down:</strong> Cho phép người dùng đi từ con số
+                  tổng hợp trên báo cáo, click sâu xuống để xem các giao dịch
+                  chi tiết, và cuối cùng là xem chứng từ gốc. Đây là tính năng
+                  cực kỳ mạnh mẽ cho việc phân tích và kiểm toán.
+                </li>
+                <li>
+                  <strong>Tự động và Chuẩn mực:</strong> Báo cáo được tạo tự
+                  động từ dữ liệu đã được kiểm soát chặt chẽ, dễ dàng cấu hình
+                  theo các chuẩn mực quốc tế như IFRS hoặc GAAP.
+                </li>
+                <li>
+                  <strong>Financial Statement Version (FSV):</strong> Là công cụ
+                  trong SAP cho phép định nghĩa cấu trúc, bố cục của Bảng cân
+                  đối kế toán và Báo cáo KQKD, giúp tùy chỉnh báo cáo theo yêu
+                  cầu quản trị hoặc pháp lý.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="fab" id="fab" title="Scroll to top">
+      <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const navLinks = document.querySelectorAll(".nav-link");
+        const contentSections = document.querySelectorAll(".content-section");
+        const sidebar = document.getElementById("sidebar");
+        const sidebarToggle = document.getElementById("sidebar-toggle");
+        const fab = document.getElementById("fab");
+        const mainContent = document.querySelector("main");
+
+        // Enhanced function to switch active content with smooth transition
+        function switchContent(targetId) {
+          // Add loading effect
+          const currentActive = document.querySelector(".content-section.active");
+          if (currentActive) {
+            currentActive.style.opacity = "0";
+            currentActive.style.transform = "translateY(20px)";
+          }
+
+          setTimeout(() => {
+            contentSections.forEach((section) => {
+              section.classList.remove("active");
+            });
+            
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+              targetSection.classList.add("active");
+              // Reset and trigger animation
+              targetSection.style.opacity = "0";
+              targetSection.style.transform = "translateY(20px)";
+              
+              setTimeout(() => {
+                targetSection.style.opacity = "1";
+                targetSection.style.transform = "translateY(0)";
+              }, 50);
+            }
+          }, 150);
+        }
+
+        // Enhanced active link styling
+        function setActiveLink(activeLink) {
+          navLinks.forEach((l) => {
+            l.classList.remove("bg-gradient-to-r", "from-purple-500", "to-blue-500", "text-white", "shadow-lg");
+            l.style.transform = "translateX(0)";
+          });
+          
+          activeLink.classList.add("bg-gradient-to-r", "from-purple-500", "to-blue-500", "text-white", "shadow-lg");
+          activeLink.style.transform = "translateX(8px)";
+        }
+
+        // Set initial active link and content
+        const firstLink = navLinks[0];
+        setActiveLink(firstLink);
+        switchContent(firstLink.dataset.target);
+
+        // Enhanced event listener for navigation links
+        navLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            // Update active link style with animation
+            setActiveLink(this);
+
+            // Switch content with animation
+            const targetId = this.dataset.target;
+            switchContent(targetId);
+
+            // Scroll to top of main content
+            mainContent.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Hide sidebar on mobile after click
+            if (window.innerWidth < 640) {
+              sidebar.classList.add("-translate-x-full");
+            }
+          });
+        });
+
+        // Enhanced sidebar toggle for mobile
+        sidebarToggle.addEventListener("click", function () {
+          sidebar.classList.toggle("-translate-x-full");
+          
+          // Add pulse effect
+          this.style.transform = "scale(0.95)";
+          setTimeout(() => {
+            this.style.transform = "scale(1)";
+          }, 150);
+        });
+
+        // Floating Action Button functionality
+        fab.addEventListener("click", function () {
+          mainContent.scrollTo({ top: 0, behavior: 'smooth' });
+          
+          // Add click animation
+          this.style.transform = "scale(0.9)";
+          setTimeout(() => {
+            this.style.transform = "scale(1.1)";
+            setTimeout(() => {
+              this.style.transform = "scale(1)";
+            }, 150);
+          }, 100);
+        });
+
+        // Show/hide FAB based on scroll position
+        mainContent.addEventListener("scroll", function () {
+          if (this.scrollTop > 300) {
+            fab.style.opacity = "1";
+            fab.style.visibility = "visible";
+            fab.style.transform = "scale(1)";
+          } else {
+            fab.style.opacity = "0";
+            fab.style.visibility = "hidden";
+            fab.style.transform = "scale(0.8)";
+          }
+        });
+
+        // Initial FAB state
+        fab.style.opacity = "0";
+        fab.style.visibility = "hidden";
+        fab.style.transform = "scale(0.8)";
+        fab.style.transition = "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)";
+
+        // Add smooth transitions to content sections
+        contentSections.forEach((section) => {
+          section.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+        });
+
+        // Enhanced hover effects for nav links
+        navLinks.forEach((link) => {
+          link.addEventListener("mouseenter", function () {
+            if (!this.classList.contains("text-white")) {
+              this.style.transform = "translateX(4px)";
+            }
+          });
+
+          link.addEventListener("mouseleave", function () {
+            if (!this.classList.contains("text-white")) {
+              this.style.transform = "translateX(0)";
+            }
+          });
+        });
+
+        // Add loading animation for page transitions
+        function showLoading() {
+          const loader = document.createElement('div');
+          loader.className = 'loading';
+          loader.style.position = 'fixed';
+          loader.style.top = '50%';
+          loader.style.left = '50%';
+          loader.style.transform = 'translate(-50%, -50%)';
+          loader.style.zIndex = '9999';
+          document.body.appendChild(loader);
+          
+          setTimeout(() => {
+            document.body.removeChild(loader);
+          }, 500);
+        }
+
+        // Add entrance animation to elements
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateY(0)';
+            }
+          });
+        });
+
+        // Observe glass cards for entrance animation
+        document.querySelectorAll('.glass-card').forEach((card) => {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(20px)';
+          card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+          observer.observe(card);
+        });
+      });
+    </script>
+  </body>
+</html>
